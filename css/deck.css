@@ -1,0 +1,163 @@
+/* css/deck.css */
+/* 卡组管理器样式 */
+.deck-manager-container {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+    flex: 1;
+    min-height: 500px;
+}
+@media (max-width: 900px) {
+    .deck-manager-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+.card-library {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    overflow-y: auto;
+    max-height: 600px;
+}
+.card-library h3 {
+    color: var(--text-gold);
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    position: sticky;
+    top: 0;
+    background: var(--bg-panel);
+    padding: 8px 0;
+    z-index: 2;
+}
+.card-library .card-section {
+    margin-bottom: 16px;
+}
+.card-library .card-section h4 {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+/* 卡组编辑区 */
+.deck-editor {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.deck-editor h3 {
+    color: var(--text-gold);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.deck-editor h3 .deck-count {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    letter-spacing: 0;
+}
+.deck-editor h3 .deck-count.valid {
+    color: var(--success);
+}
+.deck-editor h3 .deck-count.invalid {
+    color: var(--error);
+}
+
+.deck-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+.deck-slots .slot-section {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 12px;
+}
+.deck-slots .slot-section h4 {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+.deck-slots .slot-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-height: 50px;
+    align-items: center;
+}
+.deck-slots .slot-cards .deck-card-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+}
+.deck-slots .slot-cards .deck-card-item:hover {
+    border-color: var(--error);
+    background: rgba(244, 67, 54, 0.2);
+}
+.deck-slots .slot-cards .deck-card-item .remove-hint {
+    font-size: 0.65rem;
+    color: var(--error);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.deck-slots .slot-cards .deck-card-item:hover .remove-hint {
+    opacity: 1;
+}
+.deck-slots .empty-slot {
+    width: 50px;
+    height: 30px;
+    border: 2px dashed var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+.deck-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: auto;
+}
+.deck-actions .btn {
+    flex: 1;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 12px 16px;
+}

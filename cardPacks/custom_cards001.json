@@ -1,0 +1,35 @@
+[
+  {
+    "id": "custom_1788452672598_0",
+    "name": "火焰巨人",
+    "type": "minion",
+    "series": "",
+    "effectText": "【嘲讽】\n？【入阵曲】给予对方所有随从4点伤害\n",
+    "effectColors": [],
+    "costRestriction": "'绿''红''红'",
+    "nativeTraits": [
+      "嘲讽",
+      "入阵曲"
+    ],
+    "flavorText": "庞大的身躯，滚烫的火焰，人间瞬间化为炼狱",
+    "isCustom": true,
+    "attack": 6,
+    "defense": 7,
+    "cost": 5
+  },
+  {
+    "id": "custom_1788452873254_1",
+    "name": "风暴",
+    "type": "tactic",
+    "series": "",
+    "effectText": "【迅捷】\n?选择对方一名3费及以下的随从和一张战术卡，给予破坏",
+    "effectColors": [],
+    "costRestriction": "'蓝''蓝'",
+    "nativeTraits": [
+      "迅捷"
+    ],
+    "flavorText": "风暴袭来，没有人能估量其破坏力",
+    "isCustom": true,
+    "cost": 4
+  }
+]

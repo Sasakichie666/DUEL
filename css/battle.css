@@ -1,0 +1,456 @@
+/* css/battle.css */
+/* ========== 战斗视图样式（无文字布局干扰） ========== */
+#view-battle {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.battle-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    gap: 12px;
+}
+
+/* 顶部合并血量条 */
+.battle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+.player-health-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+}
+.player-health-info .player-name {
+    color: var(--text-secondary);
+}
+.player-health-info .player-health {
+    color: var(--error);
+}
+
+/* 对手区域 */
+.player-area.opponent {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 战场行容器 */
+.battle-field-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 80px;
+}
+
+/* 费用区 */
+.cost-zone {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 牌库区 */
+.deck-zone {
+    position: absolute;
+    right: 40px;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 前后场容器 */
+.field-zone-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 自己区域 */
+.player-area.self {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.self-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 手牌区 */
+.self-hand {
+    margin-top: auto;
+    background: rgba(0,0,0,0.4);
+    border-radius: 8px;
+    padding: 10px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: stretch;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/* 手牌子区域 */
+.hand-subzone {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    align-items: center;
+    flex: 0 0 auto;
+    min-width: min-content;
+}
+
+/* 手牌分隔线 */
+.hand-divider {
+    width: 2px;
+    background: var(--border);
+    flex-shrink: 0;
+}
+
+/* 手牌占位提示 */
+.hand-placeholder {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 10px;
+    white-space: nowrap;
+}
+
+/* 战场行容器 */
+.field-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 80px;
+}
+
+/* 内部容器 */
+.field-zone {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+}
+
+/* 战场格子 */
+.field-slot {
+    flex: 0 0 80px;
+    width: 80px;
+    aspect-ratio: 3/4;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    background: rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* 费用区格子 */
+.cost-zone .field-slot {
+    flex: 0 0 60px;
+    width: 60px;
+    aspect-ratio: 1/1;
+    border-radius: 6px;
+}
+
+/* 牌库区格子 */
+.deck-zone .deck-row {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+.deck-zone .deck-slot {
+    flex: 0 0 70px;
+    width: 70px;
+    aspect-ratio: 3/4;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    background: rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+/* 空格子悬停 */
+.field-slot.empty,
+.deck-slot.empty {
+    cursor: pointer;
+}
+.field-slot.empty:hover,
+.deck-slot.empty:hover {
+    border-color: var(--accent);
+}
+
+/* 非空牌库槽位悬停效果（与卡牌类似） */
+.deck-slot:not(.empty):hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(233, 69, 96, 0.3);
+    transform: translateY(-2px);
+}
+
+/* 牌库卡背样式 */
+.deck-card-back {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    border-radius: 6px;
+    background: #2a3a5c;
+    color: #ccc;
+    user-select: none;
+}
+.deck-card-back.mainDeck {
+    background: #1a3a6a;
+}
+.deck-card-back.costDeck {
+    background: #2a6a3a;
+}
+
+/* 牌库数量角标 */
+.deck-count-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 2px 5px;
+    border-radius: 10px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* 卡牌在格子中的基础尺寸（不涉及文字） */
+.card-full.on-field {
+    width: 100%;
+    height: 100%;
+    min-height: unset;
+    min-width: unset;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 手牌卡牌基础尺寸 */
+.card-full.in-hand {
+    width: 110px;
+    aspect-ratio: 3/4;
+    height: auto;
+    min-height: unset;
+    padding: 6px;
+}
+
+/* 牌背与占位符 */
+.card-back {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.slot-placeholder {
+    pointer-events: none;
+    user-select: none;
+}
+
+/* 隐藏前场、后场、费用区空格子的加号 */
+.field-slot.empty .slot-placeholder {
+    display: none;
+}
+
+/* 堆叠最上面的卡牌基础尺寸 */
+.stack-top {
+    width: 100%;
+    height: 100%;
+    min-height: unset;
+    min-width: unset;
+    padding: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* 公共区域样式 */
+.field-row.public .field-zone .field-slot {
+    border-color: #4da6ff;
+    background: rgba(77, 166, 255, 0.15);
+}
+.field-row.public .field-zone .field-slot.empty:hover {
+    border-color: #80c1ff;
+    background: rgba(77, 166, 255, 0.25);
+}
+
+/* 响应式 */
+@media (max-width: 600px) {
+    .main-content {
+        padding: 12px;
+    }
+    .top-nav {
+        padding: 12px 16px;
+    }
+    .top-nav .logo {
+        font-size: 1.2rem;
+    }
+    .btn {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+    .lobby-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .deck-manager-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+}
+
+/* 选中格子的高亮样式 */
+.field-slot.selectable {
+    border-color: #4caf50;
+    background: rgba(76, 175, 80, 0.2);
+    cursor: pointer;
+}
+
+/* 费用区卡牌：仅保留背景与颜色圆点（无文字规则） */
+.cost-zone .card-full {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.cost-zone .card-full::before {
+    content: '';
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ccc;
+    box-shadow: 0 0 8px rgba(0,0,0,0.6);
+}
+.cost-zone .card-full.color-red::before { background: var(--color-red); }
+.cost-zone .card-full.color-blue::before { background: var(--color-blue); }
+.cost-zone .card-full.color-green::before { background: var(--color-green); }
+.cost-zone .card-full.color-white::before { background: var(--color-white); }
+
+/* 堆叠区费用卡：颜色圆点自适应大小 */
+.card-full.stack-top.color-red,
+.card-full.stack-top.color-blue,
+.card-full.stack-top.color-green,
+.card-full.stack-top.color-white {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.card-full.stack-top.color-red::before,
+.card-full.stack-top.color-blue::before,
+.card-full.stack-top.color-green::before,
+.card-full.stack-top.color-white::before {
+    content: '';
+    width: 40%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #ccc;
+    box-shadow: 0 0 6px rgba(0,0,0,0.5);
+}
+.card-full.stack-top.color-red::before { background: var(--color-red); }
+.card-full.stack-top.color-blue::before { background: var(--color-blue); }
+.card-full.stack-top.color-green::before { background: var(--color-green); }
+.card-full.stack-top.color-white::before { background: var(--color-white); }
+
+/* 侧边栏容器：固定定位在屏幕最右侧，垂直居中，竖向排列 */
+.side-panel-container {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(0,0,0,0.75);
+    padding: 16px 10px;
+    border-radius: 12px 0 0 12px;
+    box-shadow: -4px 0 16px rgba(0,0,0,0.5);
+}
+.side-btn {
+    padding: 10px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: all 0.2s;
+}
+.side-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
+}
+.side-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+.side-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    gap: 8px;
+}
+.side-toggle input {
+    margin-left: 0;
+}
+
+
+/* 确保侧边栏内部纵向排列 */
+.side-panel-container .side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}

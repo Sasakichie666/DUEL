@@ -1,0 +1,19 @@
+[
+  {
+    "id": "custom_1788525622551_0",
+    "name": "奥丁",
+    "type": "minion",
+    "series": "传说,神明",
+    "effectText": "【疾驰】？给予对方所有随从5点伤害",
+    "effectColors": [],
+    "costRestriction": "'红''红''蓝''蓝''紫'",
+    "nativeTraits": [
+      "疾驰"
+    ],
+    "flavorText": "众神之父，降下天雷的那一刻，神明的怒火将响彻大地",
+    "isCustom": true,
+    "attack": 10,
+    "defense": 8,
+    "cost": 7
+  }
+]

@@ -1,0 +1,773 @@
+[
+  {
+    "id": "custom_1788529518914_0",
+    "name": "火焰之灵",
+    "type": "minion",
+    "series": "精灵",
+    "effectText": "【触发】这张卡在场上存在时，我方其它随从发动攻击时，抽一张卡，一回合一次",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "触发"
+    ],
+    "flavorText": "再小的火苗也能发光发热",
+    "isCustom": true,
+    "attack": 1,
+    "defense": 1,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788529679765_2",
+    "name": "冰霜巨龙",
+    "type": "minion",
+    "series": "冰霜",
+    "effectText": "【回响】'蓝''蓝'选择对方一名随从，给予【冻结】",
+    "effectColors": [
+      "blue",
+      "blue"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "回响",
+      "冻结"
+    ],
+    "flavorText": "庞大的身躯，足以撼动大地。张开巨口喷出的冰霜可以冻结一切",
+    "isCustom": true,
+    "attack": 4,
+    "defense": 6,
+    "cost": 4
+  },
+  {
+    "id": "custom_1788529819234_4",
+    "name": "迅捷剑士",
+    "type": "minion",
+    "series": "战士",
+    "effectText": "【强袭】",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "强袭"
+    ],
+    "flavorText": "手持短剑，身手却十分灵敏",
+    "isCustom": true,
+    "attack": 1,
+    "defense": 1,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788529945770_5",
+    "name": "圣光骑士",
+    "type": "minion",
+    "series": "传说",
+    "effectText": "【守护】？【入阵曲】给予我方其余所有随从+0/+2",
+    "effectColors": [],
+    "costRestriction": "'白' '白' '黄'",
+    "nativeTraits": [
+      "守护",
+      "入阵曲"
+    ],
+    "flavorText": "",
+    "isCustom": true,
+    "attack": 5,
+    "defense": 6,
+    "cost": 5
+  },
+  {
+    "id": "custom_1788530082774_7",
+    "name": "龙裔战士",
+    "type": "minion",
+    "series": "龙族，战士",
+    "effectText": "【突进】？这张卡交战时获得+2/+0",
+    "effectColors": [],
+    "costRestriction": "'红'",
+    "nativeTraits": [
+      "突进"
+    ],
+    "flavorText": "勇武好战，他们一族引以为傲",
+    "isCustom": true,
+    "attack": 5,
+    "defense": 3,
+    "cost": 4
+  },
+  {
+    "id": "custom_1788530228020_8",
+    "name": "机械傀儡",
+    "type": "minion",
+    "series": "机械",
+    "effectText": "【遗言】选择对方一名随从，造成2点伤害",
+    "effectColors": [],
+    "costRestriction": "'紫'",
+    "nativeTraits": [
+      "遗言"
+    ],
+    "flavorText": "",
+    "isCustom": true,
+    "attack": 1,
+    "defense": 1,
+    "cost": 2
+  },
+  {
+    "id": "custom_1788530339571_9",
+    "name": "精灵巡林者",
+    "type": "minion",
+    "series": "精灵",
+    "effectText": "【入阵曲】选择对方两名随从给予2点伤害",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "入阵曲"
+    ],
+    "flavorText": "巡林者的箭矢，快如迅雷",
+    "isCustom": true,
+    "attack": 3,
+    "defense": 3,
+    "cost": 3
+  },
+  {
+    "id": "custom_1788530451450_10",
+    "name": "岩石守卫",
+    "type": "minion",
+    "series": "自然",
+    "effectText": "【守护】？【回响】'绿'选择我方一名随从获得+0/+2",
+    "effectColors": [
+      "green"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "守护",
+      "回响"
+    ],
+    "flavorText": "宛如移动的岩石堡垒，不可撼动",
+    "isCustom": true,
+    "attack": 4,
+    "defense": 6,
+    "cost": 4
+  },
+  {
+    "id": "custom_1788530688708_11",
+    "name": "风暴巨鹰",
+    "type": "minion",
+    "series": "风暴",
+    "effectText": "【突进】【回响】'蓝''蓝'这张卡获得【穿透】",
+    "effectColors": [
+      "blue",
+      "blue"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "突进",
+      "回响",
+      "穿透"
+    ],
+    "flavorText": "操控风暴，翱翔于天际的传说之兽",
+    "isCustom": true,
+    "attack": 5,
+    "defense": 3,
+    "cost": 4
+  },
+  {
+    "id": "custom_1788530781434_12",
+    "name": "猎鹰",
+    "type": "minion",
+    "series": "野兽",
+    "effectText": "【突进】",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "突进"
+    ],
+    "flavorText": "没有一只猎物可以逃脱它的鹰眼",
+    "isCustom": true,
+    "attack": 3,
+    "defense": 2,
+    "cost": 3
+  },
+  {
+    "id": "custom_1788530859804_13",
+    "name": "哥布林",
+    "type": "minion",
+    "series": "魔物",
+    "effectText": "【触发】这张卡交战时，抽一张斌能牌",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "触发"
+    ],
+    "flavorText": "身材虽然矮小，但是集群却是棘手的魔物",
+    "isCustom": true,
+    "attack": 1,
+    "defense": 1,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788530984768_14",
+    "name": "精灵的使者",
+    "type": "minion",
+    "series": "精灵",
+    "effectText": "【入场曲】抽一张牌。如果我方场上存在其它精灵随从则改为抽两张",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "入场曲"
+    ],
+    "flavorText": "来自于精灵森林遗迹的深处，捎来了重要的讯息",
+    "isCustom": true,
+    "attack": 2,
+    "defense": 2,
+    "cost": 2
+  },
+  {
+    "id": "custom_1788531188672_15",
+    "name": "遗迹的守护巨像",
+    "type": "minion",
+    "series": "自然，精灵",
+    "effectText": "【守护】？【入场曲】我方存在其它精灵随从时，检索两张'绿'费用卡",
+    "effectColors": [
+      "green"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "守护",
+      "入场曲"
+    ],
+    "flavorText": "守护着精灵遗迹的巨像，外来者难以轻易靠近",
+    "isCustom": true,
+    "attack": 4,
+    "defense": 6,
+    "cost": 4
+  },
+  {
+    "id": "custom_1788531350219_17",
+    "name": "食人花",
+    "type": "minion",
+    "series": "",
+    "effectText": "【回响】'绿''绿'选择对方一名4费及以下的随从破坏",
+    "effectColors": [
+      "green",
+      "green"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "回响"
+    ],
+    "flavorText": "森林深处据说存在着凶恶的食人花，连熊般的体型都能一口吞进肚子",
+    "isCustom": true,
+    "attack": 3,
+    "defense": 3,
+    "cost": 3
+  },
+  {
+    "id": "custom_1788531437596_18",
+    "name": "咒文战士",
+    "type": "minion",
+    "series": "战士",
+    "effectText": "【迅捷】你每使用一张法术牌，这张卡获得+2/+0",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "迅捷"
+    ],
+    "flavorText": "虽然是持剑的战士，却十分擅长使用咒文进行战斗",
+    "isCustom": true,
+    "attack": 2,
+    "defense": 3,
+    "cost": 3
+  },
+  {
+    "id": "custom_1788531624719_19",
+    "name": "华丽之魔剑士",
+    "type": "minion",
+    "series": "传说",
+    "effectText": "【入场曲】这张卡获得+X/+0,X为你墓场的法术卡数量",
+    "effectColors": [],
+    "costRestriction": "'蓝' '蓝' '红'",
+    "nativeTraits": [
+      "入场曲"
+    ],
+    "flavorText": "响彻天下的魔剑士，无论是剑士以及魔法都是一流",
+    "isCustom": true,
+    "attack": 7,
+    "defense": 6,
+    "cost": 6
+  },
+  {
+    "id": "custom_1788531947165_20",
+    "name": "烈焰飞龙",
+    "type": "minion",
+    "series": "",
+    "effectText": "【威慑】",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "威慑"
+    ],
+    "flavorText": "从天空降落的炙热火焰，大军随即溃不成军",
+    "isCustom": true,
+    "attack": 4,
+    "defense": 4,
+    "cost": 4
+  },
+  {
+    "id": "custom_1788532116971_21",
+    "name": "执剑者",
+    "type": "minion",
+    "series": "传说",
+    "effectText": "【入场曲】选择对方一名随从破坏，那之后获得+X，X为被破坏的随从的当前攻击力",
+    "effectColors": [],
+    "costRestriction": "'红' '红' '红''红'",
+    "nativeTraits": [
+      "入场曲"
+    ],
+    "flavorText": "持有传说之剑的神秘之人，据说那把剑可以斩断一切",
+    "isCustom": true,
+    "attack": 8,
+    "defense": 6,
+    "cost": 7
+  },
+  {
+    "id": "custom_1788532194910_22",
+    "name": "火球术",
+    "type": "tactic",
+    "series": "法术",
+    "effectText": "选择对方一名随从，给予两点伤害？【增幅】'红''红'改为给予4点伤害",
+    "effectColors": [
+      "red",
+      "red"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "增幅"
+    ],
+    "flavorText": "最为流传的攻击魔法",
+    "isCustom": true,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788532288896_24",
+    "name": "治疗术",
+    "type": "tactic",
+    "series": "法术",
+    "effectText": "选择我方一名随从获得+0/+2?【增幅】'绿''绿'改为获得+0/+4",
+    "effectColors": [
+      "green",
+      "green"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "增幅"
+    ],
+    "flavorText": "冒险者团队最必不可缺的治疗魔法",
+    "isCustom": true,
+    "cost": 2
+  },
+  {
+    "id": "custom_1788532422331_26",
+    "name": "暗影箭矢",
+    "type": "tactic",
+    "series": "",
+    "effectText": "【迅捷】选择对方一名随从造成2点伤害",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "迅捷"
+    ],
+    "flavorText": "难以防备的致命箭矢，不少冒险者都丧命于此",
+    "isCustom": true,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788532531515_28",
+    "name": "神圣庇护",
+    "type": "tactic",
+    "series": "法术",
+    "effectText": "选择我方一名随从给予【圣盾】",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "圣盾"
+    ],
+    "flavorText": "神会为信徒降下庇护",
+    "isCustom": true,
+    "cost": 2
+  },
+  {
+    "id": "custom_1788532719931_29",
+    "name": "自然之力",
+    "type": "tactic",
+    "series": "法术",
+    "effectText": "【流转】'绿''绿'？抽3张费用卡",
+    "effectColors": [
+      "green",
+      "green"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "流转"
+    ],
+    "flavorText": "",
+    "isCustom": true,
+    "cost": 4
+  },
+  {
+    "id": "custom_1788532825080_30",
+    "name": "迅捷步伐",
+    "type": "tactic",
+    "series": "",
+    "effectText": "【迅捷】我方随从受到攻击时，减少2点伤害",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "迅捷"
+    ],
+    "flavorText": "掌控步伐往往比一味地进攻更重要",
+    "isCustom": true,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788532881901_31",
+    "name": "魔法护盾",
+    "type": "tactic",
+    "series": "",
+    "effectText": "选择我方一名角色，给予【扰魔】",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "扰魔"
+    ],
+    "flavorText": "应对魔法攻击的最佳手段",
+    "isCustom": true,
+    "cost": 4
+  },
+  {
+    "id": "custom_1788532947101_32",
+    "name": "主宰",
+    "type": "cost",
+    "series": "",
+    "effectText": "",
+    "effectColors": [],
+    "costRestriction": "'红'",
+    "nativeTraits": [],
+    "flavorText": "",
+    "isCustom": true,
+    "color": "red"
+  },
+  {
+    "id": "custom_1788532995497_33",
+    "name": "流动",
+    "type": "cost",
+    "series": "",
+    "effectText": "",
+    "effectColors": [],
+    "costRestriction": "'蓝'",
+    "nativeTraits": [],
+    "flavorText": "",
+    "isCustom": true,
+    "color": "blue"
+  },
+  {
+    "id": "custom_1788533014429_34",
+    "name": "萌发",
+    "type": "cost",
+    "series": "",
+    "effectText": "",
+    "effectColors": [],
+    "costRestriction": "'绿'",
+    "nativeTraits": [],
+    "flavorText": "",
+    "isCustom": true,
+    "color": "green"
+  },
+  {
+    "id": "custom_1788533043502_35",
+    "name": "预示",
+    "type": "cost",
+    "series": "",
+    "effectText": "",
+    "effectColors": [],
+    "costRestriction": "'白'",
+    "nativeTraits": [],
+    "flavorText": "",
+    "isCustom": true,
+    "color": "white"
+  },
+  {
+    "id": "custom_1788533059991_36",
+    "name": "混沌",
+    "type": "cost",
+    "series": "",
+    "effectText": "",
+    "effectColors": [],
+    "costRestriction": "'紫'",
+    "nativeTraits": [],
+    "flavorText": "",
+    "isCustom": true,
+    "color": "purple"
+  },
+  {
+    "id": "custom_1788533083643_37",
+    "name": "坚韧",
+    "type": "cost",
+    "series": "",
+    "effectText": "",
+    "effectColors": [],
+    "costRestriction": "'黄'",
+    "nativeTraits": [],
+    "flavorText": "",
+    "isCustom": true,
+    "color": "yellow"
+  },
+  {
+    "id": "custom_1788533200343_38",
+    "name": "睿智",
+    "type": "cost",
+    "series": "",
+    "effectText": "",
+    "effectColors": [],
+    "costRestriction": "'青'",
+    "nativeTraits": [],
+    "flavorText": "",
+    "isCustom": true,
+    "color": "cyan"
+  },
+  {
+    "id": "custom_1788614390642_16",
+    "name": "绿野的新生",
+    "type": "minion",
+    "series": "",
+    "effectText": "【入阵曲】抽一张斌能牌",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "入阵曲"
+    ],
+    "flavorText": "森林深处萌发着生命的奇迹",
+    "isCustom": true,
+    "attack": 0,
+    "defense": 1,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788615656667_36",
+    "name": "沉默法术",
+    "type": "tactic",
+    "series": "法术",
+    "effectText": "【迅捷】选择对方一名随从，给予【沉默】",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "迅捷",
+      "沉默"
+    ],
+    "flavorText": "对于魔法术士来说是最致命的禁术",
+    "isCustom": true,
+    "cost": 3
+  },
+  {
+    "id": "custom_1788615765902_37",
+    "name": "狂暴",
+    "type": "tactic",
+    "series": "",
+    "effectText": "选择我方一名随从获得+2/+0",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [],
+    "flavorText": "陷入狂暴状态的人，不要轻易靠近",
+    "isCustom": true,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788616170089_38",
+    "name": "棱镜反射",
+    "type": "tactic",
+    "series": "法术",
+    "effectText": "【瞬发】对方发动的效果无效化？【回响】'蓝''蓝'进入墓场的这张卡放回牌库底",
+    "effectColors": [
+      "blue",
+      "blue"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "瞬发",
+      "回响"
+    ],
+    "flavorText": "可以反击魔法的魔法，只有上位魔法师才能掌握",
+    "isCustom": true,
+    "cost": 3
+  },
+  {
+    "id": "custom_1788616284520_39",
+    "name": "罡风",
+    "type": "tactic",
+    "series": "法术",
+    "effectText": "【迅捷】选择对方一名3费及以下的随从回到手牌",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "迅捷"
+    ],
+    "flavorText": "席卷万物的妖风",
+    "isCustom": true,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788616396647_40",
+    "name": "漩涡",
+    "type": "tactic",
+    "series": "",
+    "effectText": "选择对方一名4费及以下随从，将其放回牌库底",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [],
+    "flavorText": "被漩涡吞并的生物无一幸免",
+    "isCustom": true,
+    "cost": 2
+  },
+  {
+    "id": "custom_1788616543000_41",
+    "name": "潮汐",
+    "type": "tactic",
+    "series": "",
+    "effectText": "选择对方一名随从回到手牌",
+    "effectColors": [],
+    "costRestriction": "'蓝''蓝'",
+    "nativeTraits": [],
+    "flavorText": "潮汐可以吞没一切靠近的生物",
+    "isCustom": true,
+    "cost": 3
+  },
+  {
+    "id": "custom_1788616677316_44",
+    "name": "指名者的放逐",
+    "type": "tactic",
+    "series": "策略",
+    "effectText": "选择对方一名随从放逐",
+    "effectColors": [],
+    "costRestriction": "'黄''黄''黄'",
+    "nativeTraits": [],
+    "flavorText": "被放逐的大陆无异于宣告死刑",
+    "isCustom": true,
+    "cost": 0
+  },
+  {
+    "id": "custom_1788616825028_47",
+    "name": "赌局千术",
+    "type": "tactic",
+    "series": "策略",
+    "effectText": "【预知】",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "预知"
+    ],
+    "flavorText": "掌握了此千术就能在赌场上如鱼得水",
+    "isCustom": true,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788616980515_49",
+    "name": "枯萎之术",
+    "type": "tactic",
+    "series": "法术",
+    "effectText": "选择对方一名随从给予【枯萎】",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "枯萎"
+    ],
+    "flavorText": "能有效限制对方行动的禁术",
+    "isCustom": true,
+    "cost": 2
+  },
+  {
+    "id": "custom_1788617147079_51",
+    "name": "雪崩",
+    "type": "tactic",
+    "series": "",
+    "effectText": "破坏对方场上所有持有冻结状态的随从",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [],
+    "flavorText": "雪山崩塌的威力，不可估量",
+    "isCustom": true,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788617310705_52",
+    "name": "冰晶之剑",
+    "type": "minion",
+    "series": "",
+    "effectText": "【入阵曲】选择对方一名随从，给予【冻结】",
+    "effectColors": [],
+    "costRestriction": "'蓝'",
+    "nativeTraits": [
+      "入阵曲",
+      "冻结"
+    ],
+    "flavorText": "但凡被她的剑砍中，就会无法动弹",
+    "isCustom": true,
+    "attack": 2,
+    "defense": 3,
+    "cost": 3
+  },
+  {
+    "id": "custom_1788617393879_53",
+    "name": "征召",
+    "type": "tactic",
+    "series": "策略",
+    "effectText": "检索一张战士牌",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [],
+    "flavorText": "王国正在征召勇武的战士",
+    "isCustom": true,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788617510412_54",
+    "name": "军团长",
+    "type": "minion",
+    "series": "战士",
+    "effectText": "【突进】？【守护】",
+    "effectColors": [],
+    "costRestriction": "'黄''黄'",
+    "nativeTraits": [
+      "突进",
+      "守护"
+    ],
+    "flavorText": "勇武的军团长是小队里的中流砥柱",
+    "isCustom": true,
+    "attack": 4,
+    "defense": 4,
+    "cost": 4
+  },
+  {
+    "id": "custom_1788617677013_55",
+    "name": "嗜血蝙蝠",
+    "type": "minion",
+    "series": "眷属",
+    "effectText": "【嗜血】",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "嗜血"
+    ],
+    "flavorText": "别因为体型小就掉以轻心，被咬住不到几秒就能把一个人吸干",
+    "isCustom": true,
+    "attack": 1,
+    "defense": 1,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788617839656_56",
+    "name": "眷属的呼唤",
+    "type": "tactic",
+    "series": "眷属",
+    "effectText": "选择墓场一张眷属随从牌，回到手牌",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [],
+    "flavorText": "呼唤眷属进行掩护是夜族最常用的能力",
+    "isCustom": true,
+    "cost": 1
+  }
+]

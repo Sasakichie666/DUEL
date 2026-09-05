@@ -1,0 +1,97 @@
+/* css/menu.css */
+.context-menu {
+    position: fixed;
+    z-index: 2000;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    padding: 4px 0;
+    min-width: 120px;
+}
+
+.context-menu-item {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+}
+
+.context-menu-item:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* 词条输入弹窗样式（可选，用于替代内联样式） */
+.trait-prompt-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+.trait-prompt-dialog {
+    background: #1e2a3a;
+    border: 2px solid #4a6fa5;
+    border-radius: 12px;
+    padding: 24px 28px;
+    width: 360px;
+    max-width: 90vw;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    color: #e0e0e0;
+}
+.trait-prompt-dialog h3 {
+    margin: 0 0 16px 0;
+    color: #ffd700;
+    text-align: center;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+.trait-prompt-dialog input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #4a6fa5;
+    border-radius: 6px;
+    background: #0f1a2b;
+    color: #ffffff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+.trait-prompt-dialog input:focus {
+    border-color: #ffd700;
+}
+.trait-prompt-dialog .trait-prompt-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+.trait-prompt-dialog button {
+    padding: 8px 20px;
+    background: transparent;
+    border: 1px solid #4a6fa5;
+    border-radius: 6px;
+    color: #e0e0e0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+.trait-prompt-dialog button.confirm {
+    background: #4a6fa5;
+    border: none;
+    color: #ffffff;
+    font-weight: 600;
+}
+.trait-prompt-dialog button.confirm:hover {
+    background: #5d82b8;
+}
+.trait-prompt-dialog button.cancel:hover {
+    background: rgba(255,255,255,0.1);
+}

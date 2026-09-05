@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡牌对战 - 联机大厅 & 卡组管理器</title>
+    <!-- PeerJS CDN（公共免费信令服务） -->
+    <script src="https://unpkg.com/peerjs@1.5.1/dist/peerjs.min.js"></script>
+    <!-- 样式 -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/lobby.css">
+    <link rel="stylesheet" href="css/deck.css">
+    <link rel="stylesheet" href="css/card.css">
+    <link rel="stylesheet" href="css/battle.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/counter.css">
+    <link rel="stylesheet" href="css/health.css">
+    <link rel="stylesheet" href="css/card-layout.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 顶部导航 -->
+        <div class="top-nav">
+            <div class="logo">⚔️ 卡牌<span>对战</span></div>
+            <div class="nav-turn-count" id="navTurnCountDisplay">第1回合</div>
+            <div class="nav-buttons">
+                <button class="btn active" id="btnLobby">🎮 联机大厅</button>
+                <button class="btn" id="btnDeck">📋 卡组管理器</button>
+            </div>
+        </div>
+
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 联机大厅视图 -->
+            <div class="view active" id="view-lobby">
+                <div class="lobby-container">
+                    <!-- 创建房间面板 -->
+                    <div class="lobby-panel">
+                        <h2>
+                            <span class="icon">🏠</span> 创建房间
+                            <span id="roomCodeContainer" class="room-code-inline" style="display:none;">
+                                <span class="room-code-label">密码：</span>
+                                <span class="room-code-small" id="roomCodeDisplay">----</span>
+                            </span>
+                        </h2>
+                        <p style="color:var(--text-secondary); font-size:0.9rem;">创建一个新房间，获得4位密码，分享给朋友加入对战。</p>
+                        <button class="btn btn-success" id="btnCreateRoom" style="font-size:1.1rem; padding:16px;">
+                            🚀 创建房间
+                        </button>
+
+                        <div class="connection-status">
+                            <div class="dot disconnected" id="hostStatusDot"></div>
+                            <span id="hostStatusText">未创建房间</span>
+                        </div>
+                        <div class="opponent-info" id="hostOpponentInfo" style="display:none;">
+                            <div class="avatar">👤</div>
+                            <div>
+                                <div style="font-weight:600;">对手已加入</div>
+                                <div style="font-size:0.8rem; color:var(--text-secondary);" id="hostOpponentStatus">等待准备...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 加入房间面板 -->
+                    <div class="lobby-panel">
+                        <h2><span class="icon">🔑</span> 加入房间</h2>
+                        <p style="color:var(--text-secondary); font-size:0.9rem;">输入房主分享的4位密码加入房间。</p>
+                        <div class="password-input-group">
+                            <input type="text" id="joinPasswordInput" maxlength="4" placeholder="输入4位密码"
+                            oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
+                            <button class="btn" id="btnJoinRoom">加入</button>
+                        </div>
+                        <div class="connection-status">
+                            <div class="dot disconnected" id="joinStatusDot"></div>
+                            <span id="joinStatusText">未加入房间</span>
+                        </div>
+                        <div class="opponent-info" id="joinOpponentInfo" style="display:none;">
+                            <div class="avatar">👤</div>
+                            <div>
+                                <div style="font-weight:600;">已连接到房主</div>
+                                <div style="font-size:0.8rem; color:var(--text-secondary);" id="joinOpponentStatus">等待准备...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 对战等待区（准备阶段） -->
+                <div class="battle-waiting" id="battleWaiting" style="margin-top: -20px;">
+                    <div class="player-cards">
+                        <div class="player-card">
+                            <div class="p-name">🎮 你</div>
+                            <div class="p-status" id="myReadyStatus">未准备</div>
+                            <button class="btn btn-success" id="btnReady" style="margin-top:8px;">
+                                ✅ 准备
+                            </button>
+                        </div>
+                        <div class="vs-icon-inline">VS</div>
+                        <div class="player-card">
+                            <div class="p-name">👤 对手</div>
+                            <div class="p-status" id="opponentReadyStatus">未准备</div>
+                            <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:8px;">等待对手准备</div>
+                        </div>
+                    </div>
+                    <button class="btn" id="btnStartGame" disabled style="font-size:1.2rem; padding:16px 40px;">
+                        🎯 开始对战
+                    </button>
+                    <p style="color:var(--text-secondary); font-size:0.85rem;">双方准备后即可开始对战</p>
+                </div>
+            </div>
+
+            <!-- 卡组管理器视图 -->
+            <div class="view" id="view-deck">
+                <div class="deck-manager-container">
+                    <div class="card-library" id="cardLibrary">
+                        <h3>📚 卡牌库</h3>
+                    </div>
+                    <div class="deck-editor">
+                        <h3>
+                            🎴 我的卡组
+                            <span class="deck-count" id="mainDeckCount">主卡组: 0/10</span>
+                        </h3>
+                        <div class="deck-slots">
+                            <div class="slot-section">
+                                <h4>⚔️ 主卡组（每种最多3张，共30张）</h4>
+                                <div class="slot-cards" id="mainDeckSlots"></div>
+                            </div>
+                            <div class="slot-section">
+                                <h4>💎 费用卡组（共20张，无限制）</h4>
+                                <div class="slot-cards" id="costDeckSlots"></div>
+                            </div>
+                            <!-- 新增传说卡组槽位 -->
+                            <div class="slot-section">
+                                <h4>📜 传说卡组（每种最多3张，共10张）</h4>
+                                <div class="slot-cards" id="legendDeckSlots"></div>
+                            </div>
+                        </div>
+                        <div class="deck-actions">
+                            <button class="btn btn-success" id="btnSaveDeck">💾 保存卡组</button>
+                            <button class="btn" id="btnLoadDeck">📂 加载卡组</button>
+                            <button class="btn btn-danger" id="btnClearDeck">🗑️ 清空卡组</button>
+                        </div>
+                        <div id="deckValidationMsg" style="font-size:0.8rem; color:var(--text-secondary); text-align:center;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 战斗视图 -->
+            <div class="view" id="view-battle">
+                <div class="battle-container">
+                    <!-- 顶部合并血量条（注意：侧边栏已移出，此处不再包含） -->
+                    <div class="battle-header">
+                        <div class="player-health-info opponent-health">
+                            <span class="player-name">对手</span>
+                            <span class="player-health" id="opponent-health">❤️ 30</span>
+                            <span class="hand-count">主牌 <span id="opponent-hand-main-count">0</span></span>
+                            <span class="hand-count">费牌 <span id="opponent-hand-cost-count">0</span></span>
+                        </div>
+                        <div class="turn-control">
+                            <button class="btn" id="btnEndTurn">对方回合</button>
+                        </div>
+                        <div class="player-health-info self-health">
+                            <span class="player-name">我</span>
+                            <span class="player-health" id="self-health">❤️ 30</span>
+                            <span class="hand-count">主牌 <span id="self-hand-main-count">0</span></span>
+                            <span class="hand-count">费牌 <span id="self-hand-cost-count">0</span></span>
+                        </div>
+                    </div>
+
+                    <!-- 对手区域 -->
+                    <div class="player-area opponent">
+                        <div class="battle-field-wrapper">
+                            <div class="cost-zone" id="opponent-cost-zone"></div>
+                            <div class="field-zone-container">
+                                <div class="field-row back" id="opponent-back-field"></div>
+                                <div class="field-row front" id="opponent-front-field"></div>
+                            </div>
+                            <div class="deck-zone" id="opponent-deck-zone"></div>
+                        </div>
+                    </div>
+
+                    <!-- 公共区域 -->
+                    <div class="field-row public" id="public-field"></div>
+
+                    <!-- 自己区域 -->
+                    <div class="player-area self">
+                        <div class="battle-field-wrapper">
+                            <div class="cost-zone" id="self-cost-zone"></div>
+                            <div class="field-zone-container">
+                                <div class="field-row front" id="self-front-field"></div>
+                                <div class="field-row back" id="self-back-field"></div>
+                            </div>
+                            <div class="deck-zone" id="self-deck-zone"></div>
+                        </div>
+                        <div class="self-hand" id="self-hand">
+                            <div class="hand-subzone" id="self-hand-cost"></div>
+                            <div class="hand-divider"></div>
+                            <div class="hand-subzone" id="self-hand-main"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 侧边栏容器：独立于 #app，置于 body 下，保证 fixed 定位相对于视口 -->
+    <div class="side-panel-container" id="sidePanelContainer"></div>
+
+    <!-- 模块脚本（按依赖顺序加载） -->
+    <!-- 词条文本库（必须最先加载，供其他模块使用） -->
+    <script src="js/core/traitLibrary.js"></script>
+    <!-- 卡牌库中间层（必须在 cards.js 之前加载） -->
+    <script src="js/core/cardLibrary.js"></script>
+    <!-- 内置卡牌注册，并触发卡包加载 -->
+    <script src="js/cards.js"></script>
+
+    <script src="js/deckManager.js"></script>
+    <script src="js/network.js"></script>
+    <script src="js/core/gameState.js"></script>
+    <script src="js/core/zoneManager.js"></script>
+    <script src="js/core/markOrderManager.js"></script>
+    <script src="js/core/cardActions.js"></script>
+    <script src="js/core/statManager.js"></script>
+    <script src="js/core/turnManager.js"></script>
+    <script src="js/core/menuAction.js"></script>
+    <script src="js/core/syncManager.js"></script>
+    <script src="js/core/traitManager.js"></script>
+    <script src="js/ui/cardUI.js"></script>
+    <script src="js/ui/deckBuilderUI.js"></script> 
+    <script src="js/ui/fieldUI.js"></script>
+    <script src="js/ui/costUI.js"></script>
+    <script src="js/ui/healthUI.js"></script>
+    <script src="js/ui/turnUI.js"></script>
+    <script src="js/ui/deckUI.js"></script>
+    <script src="js/ui/cardDetailUI.js"></script>
+    <script src="js/ui/viewerUI.js"></script>
+    <script src="js/ui/menuUI.js"></script>
+    <script src="js/ui/traitUI.js"></script>
+    <script src="js/ui/contextMenu.js"></script>
+    <script src="js/interaction/dragController.js"></script>
+    <script src="js/interaction/opponentPileViewer.js"></script>
+    <script src="js/interaction/sidePanel.js"></script>
+    <script src="js/interaction/equipController.js"></script>
+    <script src="js/integration/traitIntegration.js"></script>
+    <script src="js/interaction/counterPopup.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
