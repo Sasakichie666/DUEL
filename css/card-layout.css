@@ -1,0 +1,263 @@
+/* css/card-layout.css */
+/* 卡牌文字布局：独立管理，避免与战斗场景冲突 */
+
+/* ========== 战场（前场/后场/公共区） ========== */
+.card-full.on-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+    text-align: center;
+    padding: 12px 4px 4px;      /* 顶部预留空间 */
+    font-size: 0.7rem;
+}
+
+.card-full.on-field .card-cost {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    z-index: 5;
+}
+
+.card-full.on-field .card-name {
+    font-size: 0.7rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.card-full.on-field .card-type-label {
+    font-size: 0.55rem;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.card-full.on-field .card-stats {
+    font-size: 0.7rem;
+    display: flex;
+    justify-content: space-around;
+    margin-top: auto;           /* 攻防推到底部 */
+}
+
+.card-full.on-field .card-effect {
+    display: none;
+}
+
+/* 随从卡：名称和类型居中，并添加固定上边距 */
+.card-full.on-field.minion .card-name {
+    margin-top: 6px;
+}
+.card-full.on-field.minion .card-type-label {
+    margin-bottom: 2px;
+}
+
+/* 战术卡：同样添加固定上边距 */
+.card-full.on-field.tactic .card-name {
+    margin-top: 6px;
+}
+.card-full.on-field.tactic .card-type-label {
+    margin-bottom: 2px;
+}
+
+/* 卡牌顶部费用限定圆点容器 */
+.card-full .card-restriction {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    margin: 2px 0;
+    min-height: 10px;
+}
+
+/* ========== 堆叠区（墓场/放逐/个人区） ========== */
+.stack-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 2px;
+    font-size: 0.6rem;
+    text-align: center;
+}
+
+.stack-top .card-name {
+    font-size: 0.6rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.stack-top .card-type-label {
+    font-size: 0.5rem;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.stack-top .card-stats,
+.stack-top .card-effect {
+    display: none;
+}
+
+.stack-top.minion .card-stats {
+    display: none !important;
+}
+
+.stack-top.minion .card-name {
+    margin-top: 0;
+}
+
+.stack-top.tactic .card-name {
+    margin-top: 0;
+}
+
+/* ========== 费用区 ========== */
+.cost-zone .card-full {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.cost-zone .card-full .card-name,
+.cost-zone .card-full .card-type-label,
+.cost-zone .card-full .card-stats,
+.cost-zone .card-full .card-effect {
+    display: none;
+}
+.cost-zone .card-full::before {
+    content: '';
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ccc;
+    box-shadow: 0 0 8px rgba(0,0,0,0.6);
+}
+.cost-zone .card-full.color-red::before { background: var(--color-red); }
+.cost-zone .card-full.color-blue::before { background: var(--color-blue); }
+.cost-zone .card-full.color-green::before { background: var(--color-green); }
+.cost-zone .card-full.color-white::before { background: var(--color-white); }
+.cost-zone .card-full.color-purple::before { background: #9c27b0; }
+.cost-zone .card-full.color-yellow::before { background: #fdd835; }
+.cost-zone .card-full.color-cyan::before { background: #00bcd4; }
+
+/* ========== 堆叠区费用卡 ========== */
+.card-full.stack-top.color-red,
+.card-full.stack-top.color-blue,
+.card-full.stack-top.color-green,
+.card-full.stack-top.color-white,
+.card-full.stack-top.color-purple,
+.card-full.stack-top.color-yellow,
+.card-full.stack-top.color-cyan {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.card-full.stack-top.color-red .card-name,
+.card-full.stack-top.color-blue .card-name,
+.card-full.stack-top.color-green .card-name,
+.card-full.stack-top.color-white .card-name,
+.card-full.stack-top.color-purple .card-name,
+.card-full.stack-top.color-yellow .card-name,
+.card-full.stack-top.color-cyan .card-name,
+.card-full.stack-top.color-red .card-type-label,
+.card-full.stack-top.color-blue .card-type-label,
+.card-full.stack-top.color-green .card-type-label,
+.card-full.stack-top.color-white .card-type-label,
+.card-full.stack-top.color-purple .card-type-label,
+.card-full.stack-top.color-yellow .card-type-label,
+.card-full.stack-top.color-cyan .card-type-label,
+.card-full.stack-top.color-red .card-effect,
+.card-full.stack-top.color-blue .card-effect,
+.card-full.stack-top.color-green .card-effect,
+.card-full.stack-top.color-white .card-effect,
+.card-full.stack-top.color-purple .card-effect,
+.card-full.stack-top.color-yellow .card-effect,
+.card-full.stack-top.color-cyan .card-effect {
+    display: none;
+}
+.card-full.stack-top.color-red::before,
+.card-full.stack-top.color-blue::before,
+.card-full.stack-top.color-green::before,
+.card-full.stack-top.color-white::before,
+.card-full.stack-top.color-purple::before,
+.card-full.stack-top.color-yellow::before,
+.card-full.stack-top.color-cyan::before {
+    content: '';
+    width: 40%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #ccc;
+    box-shadow: 0 0 6px rgba(0,0,0,0.5);
+}
+.card-full.stack-top.color-red::before { background: var(--color-red); }
+.card-full.stack-top.color-blue::before { background: var(--color-blue); }
+.card-full.stack-top.color-green::before { background: var(--color-green); }
+.card-full.stack-top.color-white::before { background: var(--color-white); }
+.card-full.stack-top.color-purple::before { background: #9c27b0; }
+.card-full.stack-top.color-yellow::before { background: #fdd835; }
+.card-full.stack-top.color-cyan::before { background: #00bcd4; }
+
+/* 数值徽章 */
+.stat-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.6em;
+    height: 1.6em;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    margin: 0 4px;
+}
+.atk-badge { background: #e53935; }
+.def-badge { background: #1e88e5; }
+
+/* 效果文本行 */
+.card-full .card-effect .effect-line {
+    display: block;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* 颜色圆点（调小） */
+.color-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 2px;
+    vertical-align: middle;
+}
+.color-dot.red { background-color: #e53935; }
+.color-dot.blue { background-color: #1e88e5; }
+.color-dot.green { background-color: #43a047; }
+.color-dot.white { background-color: #f5f5f5; }
+.color-dot.purple { background-color: #9c27b0; }
+.color-dot.yellow { background-color: #fdd835; }
+.color-dot.cyan { background-color: #00bcd4; }
+
+/* 费用限定容器中的圆点进一步调小 */
+.card-full .card-restriction .color-dot {
+    width: 10px;
+    height: 10px;
+    margin: 0 1px;
+}
+
+/* 词条高亮 */
+.trait-highlight {
+    display: inline-block;
+    background-color: #ffd700;
+    color: #1a1a1a;
+    padding: 0 4px;
+    border-radius: 3px;
+    font-weight: 700;
+    margin: 0 2px;
+    line-height: 1;
+}
