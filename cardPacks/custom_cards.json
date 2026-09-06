@@ -1,0 +1,24 @@
+[
+  {
+    "id": "custom_1788445309797_0",
+    "name": "猎鹰",
+    "type": "minion",
+    "series": "风暴",
+    "effectText": "【迅捷】这张卡交战时获得+1/+1?【共鸣】'黄''黄'这张卡获得【突进】                                                                                                      ",
+    "effectColors": [
+      "yellow",
+      "yellow"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "迅捷",
+      "共鸣",
+      "突进"
+    ],
+    "flavorText": "鹰眼不会放过任何一个猎物",
+    "isCustom": true,
+    "attack": 3,
+    "defense": 4,
+    "cost": 3
+  }
+]
