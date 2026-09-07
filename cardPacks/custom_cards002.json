@@ -1,0 +1,358 @@
+[
+  {
+    "id": "custom_1788452672598_0",
+    "name": "火焰巨人",
+    "type": "minion",
+    "series": "传说",
+    "effectText": "【守护】？【入阵曲】给予对方所有随从4点伤害\n",
+    "effectColors": [],
+    "costRestriction": "'红''红''绿''绿'",
+    "nativeTraits": [
+      "守护",
+      "入阵曲"
+    ],
+    "flavorText": "庞大的身躯，滚烫的火焰，人间瞬间化为炼狱",
+    "isCustom": true,
+    "attack": 6,
+    "defense": 7,
+    "cost": 6
+  },
+  {
+    "id": "custom_1788452873254_1",
+    "name": "风暴",
+    "type": "tactic",
+    "series": "",
+    "effectText": "【迅捷】?选择对方一名3费及以下的随从和一张战术卡，破坏",
+    "effectColors": [],
+    "costRestriction": "'蓝''蓝'",
+    "nativeTraits": [
+      "迅捷"
+    ],
+    "flavorText": "风暴袭来，没有人能估量其破坏力",
+    "isCustom": true,
+    "cost": 2
+  },
+  {
+    "id": "custom_1788699932184_1",
+    "name": "火焰魔法阵",
+    "type": "tactic",
+    "series": "法术，结界",
+    "effectText": "【结界】？【冥想】选择对对方主战者或者随从造成2点伤害",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "结界",
+      "冥想"
+    ],
+    "flavorText": "当火焰魔法阵完成的一刻，冒险小队就拥有了持续进攻的能力了",
+    "isCustom": true,
+    "cost": 2
+  },
+  {
+    "id": "custom_1788700325384_2",
+    "name": "军团领队",
+    "type": "minion",
+    "series": "战术",
+    "effectText": "【共鸣】'黄''黄'从手牌选择一名费用在3及以下的随从进入战场？【回响】'红'通过这个效果进入战场的随从获得+2/+0",
+    "effectColors": [
+      "yellow",
+      "yellow",
+      "red"
+    ],
+    "costRestriction": "'黄'",
+    "nativeTraits": [
+      "共鸣",
+      "回响"
+    ],
+    "flavorText": "带领团队，稳定军心的重要领导者",
+    "isCustom": true,
+    "attack": 3,
+    "defense": 2,
+    "cost": 3
+  },
+  {
+    "id": "custom_1788700460140_3",
+    "name": "新晋士兵",
+    "type": "minion",
+    "series": "战士",
+    "effectText": "【入阵曲】当我方场上存在其他战士随从时，这张卡获得【突进】",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "入阵曲",
+      "突进"
+    ],
+    "flavorText": "虽然还是新人菜鸟，但未来说不定也能成长为领军人物",
+    "isCustom": true,
+    "attack": 1,
+    "defense": 2,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788700671739_6",
+    "name": "冲锋陷阵的战士",
+    "type": "minion",
+    "series": "战士",
+    "effectText": "【触发】这张卡在我方战场存在时，有新的战士随从进入我方战场时，这张卡获得+2/+0。一回合一次",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "触发"
+    ],
+    "flavorText": "带着必胜的使命冲锋陷阵",
+    "isCustom": true,
+    "attack": 2,
+    "defense": 2,
+    "cost": 2
+  },
+  {
+    "id": "custom_1788700788198_7",
+    "name": "久经沙场的战士",
+    "type": "minion",
+    "series": "战士",
+    "effectText": "【回响】'黄''黄'选择我方战场其余一名随从获得+2/+2",
+    "effectColors": [
+      "yellow",
+      "yellow"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "回响"
+    ],
+    "flavorText": "铠甲和剑的铁锈丰富述说着厚重的过去，但战士还怀着期待回到故乡的心",
+    "isCustom": true,
+    "attack": 3,
+    "defense": 3,
+    "cost": 3
+  },
+  {
+    "id": "custom_1788701128165_8",
+    "name": "玫瑰骑兵长",
+    "type": "minion",
+    "series": "战士",
+    "effectText": "【入阵曲】选择我方一名随从给予【突进】？【回响】'黄''红'这张卡获得【强袭】",
+    "effectColors": [
+      "yellow",
+      "red"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "入阵曲",
+      "突进",
+      "回响",
+      "强袭"
+    ],
+    "flavorText": "铠甲镶嵌着玫瑰花纹，阳光下闪耀的身影，以无法被肉眼捕捉到的速度击溃敌军",
+    "isCustom": true,
+    "attack": 4,
+    "defense": 4,
+    "cost": 4
+  },
+  {
+    "id": "custom_1788701506261_11",
+    "name": "军团魔术师·维娜",
+    "type": "minion",
+    "series": "",
+    "effectText": "【入阵曲】检索一张法术牌？【回响】'白'你发动的下一张法术牌费用减少2",
+    "effectColors": [
+      "white"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "入阵曲",
+      "回响"
+    ],
+    "flavorText": "军团中魔法技艺精湛的术士，她一人即可承担队里的法术输出职责",
+    "isCustom": true,
+    "attack": 2,
+    "defense": 2,
+    "cost": 3
+  },
+  {
+    "id": "custom_1788701783870_12",
+    "name": "魔法卷轴",
+    "type": "tactic",
+    "series": "策略",
+    "effectText": "【占卜】若选择加入的牌为法术牌，那张法术牌的费用本回合变为1",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "占卜"
+    ],
+    "flavorText": "奥秘的魔法卷轴，能够略懂一二也能提升不少魔法技艺水平",
+    "isCustom": true,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788701950021_13",
+    "name": "翻阅大图书馆",
+    "type": "tactic",
+    "series": "策略",
+    "effectText": "抽两张牌，那之后弃置一张手牌",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [],
+    "flavorText": "宛如知识汪洋的大图书馆，究竟收藏了多少本典籍",
+    "isCustom": true,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788702195279_14",
+    "name": "长廊的游走提灯",
+    "type": "minion",
+    "series": "",
+    "effectText": "这张卡从手牌弃置时可以以休整状态进入战场？【遗言】抽一张牌",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "遗言"
+    ],
+    "flavorText": "据说在凌晨的大图书馆长廊里，能看见冒着蓝火的提灯，仿佛在巡逻着图书馆",
+    "isCustom": true,
+    "attack": 0,
+    "defense": 1,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788702353171_15",
+    "name": "魔导战士",
+    "type": "minion",
+    "series": "战士",
+    "effectText": "【触发】这张卡交战时，选择对方场上一张战术卡破坏",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "触发"
+    ],
+    "flavorText": "拥有魔导力量的战士，实力深不可测",
+    "isCustom": true,
+    "attack": 3,
+    "defense": 3,
+    "cost": 3
+  },
+  {
+    "id": "custom_1788702731088_16",
+    "name": "战前动员",
+    "type": "tactic",
+    "series": "策略",
+    "effectText": "我方场上每存在一名随从，这张卡的费用-1。抽3张牌？【增幅】'白''白'发动后这张卡不进入墓地而是回到手牌",
+    "effectColors": [
+      "white",
+      "white"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "增幅"
+    ],
+    "flavorText": "是时候做战前的大动员了，战士们必将凯旋",
+    "isCustom": true,
+    "cost": 5
+  },
+  {
+    "id": "custom_1788702985689_17",
+    "name": "王宫的紧急征调",
+    "type": "tactic",
+    "series": "策略",
+    "effectText": "【迅捷】选择我方场上一张随从回到手牌，打出一张3费及以下的随从？【共鸣】'白''白'改为打出一张5费以及以下的随从",
+    "effectColors": [
+      "white",
+      "white"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "迅捷",
+      "共鸣"
+    ],
+    "flavorText": "来自王宫的紧急征调令，到底发生了什么",
+    "isCustom": true,
+    "cost": 1
+  },
+  {
+    "id": "custom_1788703329927_18",
+    "name": "高洁的冰霜之花",
+    "type": "minion",
+    "series": "冰霜",
+    "effectText": "【入阵曲】选择对方一名随从给予【冻结】？【触发】对方场上每存在一张【冻结】状态的卡，这张卡获得+2/+0",
+    "effectColors": [],
+    "costRestriction": "'蓝''蓝'",
+    "nativeTraits": [
+      "入阵曲",
+      "冻结",
+      "触发"
+    ],
+    "flavorText": "将冰霜法术完美地融合到剑术，在战场上战斗的身姿宛如一朵绽放的冰霜之花",
+    "isCustom": true,
+    "attack": 4,
+    "defense": 4,
+    "cost": 4
+  },
+  {
+    "id": "custom_1788703656768_19",
+    "name": "援军的急驰",
+    "type": "tactic",
+    "series": "策略",
+    "effectText": "从牌库顶公开两张牌，如果有随从牌的情况，则将其召唤到战场，剩余的牌回到牌库底",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [],
+    "flavorText": "援军终于到来，前线的战士们终于看到了曙光",
+    "isCustom": true,
+    "cost": 2
+  },
+  {
+    "id": "custom_1788704122306_20",
+    "name": "战场之血华",
+    "type": "minion",
+    "series": "传说，战士",
+    "effectText": "【入阵曲】这张卡获得+X/+0,X为我方场上随从数量？【共鸣】'红''红'选择我方场上一名活跃状态随从切换为休整状态，这张卡获得【连击】",
+    "effectColors": [
+      "red",
+      "red"
+    ],
+    "costRestriction": "'红''红''红'",
+    "nativeTraits": [
+      "入阵曲",
+      "共鸣",
+      "连击"
+    ],
+    "flavorText": "她的眼神没有一丝怜悯，战场上宛如绽开一朵血腥之花",
+    "isCustom": true,
+    "attack": 6,
+    "defense": 5,
+    "cost": 6
+  },
+  {
+    "id": "custom_1788704303421_22",
+    "name": "冲锋的号角",
+    "type": "tactic",
+    "series": "策略",
+    "effectText": "【共鸣】'黄''黄'选择我方一名随从给予【突进】",
+    "effectColors": [
+      "yellow",
+      "yellow"
+    ],
+    "costRestriction": "",
+    "nativeTraits": [
+      "共鸣",
+      "突进"
+    ],
+    "flavorText": "响彻天际的号角声，战士们重新燃起了斗志",
+    "isCustom": true,
+    "cost": 2
+  },
+  {
+    "id": "custom_1788704503754_23",
+    "name": "银白大剑",
+    "type": "tactic",
+    "series": "装备",
+    "effectText": "【武装】装备随从获得+2/+0",
+    "effectColors": [],
+    "costRestriction": "",
+    "nativeTraits": [
+      "武装"
+    ],
+    "flavorText": "这把大剑绝非一般人能够轻松举起，更谈不上挥砍了",
+    "isCustom": true,
+    "cost": 1
+  }
+]
