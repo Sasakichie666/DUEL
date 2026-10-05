@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>隐私声明 / Privacy Statement — 卡牌对战模拟器</title>
+<!-- 本页自身刻意不引用任何外部资源（无 CDN、无字体、无图片、无脚本），
+     以免给站点增加任何第三方请求 ✓ -->
+<style>
+    body {
+        margin: 0;
+        padding: 32px 18px 64px;
+        background: #14161d;
+        color: #e6e8ee;
+        font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        line-height: 1.75;
+        font-size: 15px;
+    }
+    main { max-width: 820px; margin: 0 auto; }
+    h1 { font-size: 1.5rem; margin: 0 0 6px; }
+    h2 { font-size: 1.05rem; margin: 28px 0 8px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    p, li { color: #cfd4e0; }
+    strong { color: #fff; }
+    ul { padding-left: 22px; }
+    code { background: rgba(255,255,255,0.08); padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }
+    .meta { color: #8b93a7; font-size: 0.85rem; }
+    .summary {
+        margin: 14px 0 4px;
+        padding: 12px 14px;
+        background: rgba(80, 220, 130, 0.10);
+        border: 1px solid rgba(80, 220, 130, 0.32);
+        border-radius: 8px;
+    }
+    table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+    th, td { padding: 7px 9px; border: 1px solid rgba(255,255,255,0.12); text-align: left; font-size: 0.9rem; }
+    th { background: rgba(255,255,255,0.05); }
+    a { color: #7fb2ff; }
+    hr { margin: 38px 0 20px; border: none; border-top: 1px solid rgba(255,255,255,0.14); }
+    .todo { color: #ffb26b; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<main>
+
+<h1>隐私声明 <span class="meta">/ Privacy Statement</span></h1>
+<p class="meta">
+    适用站点：<code>https://sasakichie666.github.io/DULEXS/</code>　·　最后更新：2026-10
+</p>
+
+<div class="summary">
+    <strong>一句话总结：本站不收集、不上传、不出售任何个人信息。</strong><br>
+    没有账号系统、没有表单提交、没有 Cookie、没有统计与广告。
+</div>
+
+<h2>1. 本站不收集的个人信息</h2>
+<ul>
+    <li>姓名、邮箱、电话、住址等身份信息 —— <strong>不收集</strong></li>
+    <li>账号、密码、验证码 —— <strong>不收集</strong>。本站没有账号系统，也不需要你输入任何密码；
+        联机时输入的是<strong>房间号</strong>，仅用于把两名玩家牵上线</li>
+    <li>位置、通讯录、相册、麦克风、摄像头等设备数据 —— <strong>不请求、不访问</strong></li>
+    <li>支付信息 —— 本站完全免费，<strong>没有任何支付</strong></li>
+    <li>广告标识符、跨站追踪、用户画像 —— <strong>不做</strong></li>
+</ul>
+
+<h2>2. 只存在你自己浏览器里的数据（localStorage）</h2>
+<p>为了让设置下次打开还在，本站把下面几样东西保存在<strong>你自己的浏览器</strong>中。
+    它们<strong>不会离开你的设备</strong>，我们看不到、也无法读取：</p>
+<table>
+    <tr><th>键名</th><th>内容</th><th>用途</th></tr>
+    <tr><td><code>savedDeck</code></td><td>你自己编辑的卡组</td><td>下次打开时恢复卡组</td></tr>
+    <tr><td><code>responseIgnoreTimePoints</code></td><td>响应连锁「忽略时点」的勾选</td><td>记住你的响应偏好</td></tr>
+    <tr><td>卡组管理器筛选偏好</td><td>类型 / 卡包筛选的勾选</td><td>记住界面筛选状态</td></tr>
+</table>
+<p>清除浏览器数据或使用无痕模式即可全部删除；这些内容<strong>不会同步到任何服务器</strong>。</p>
+
+<h2>3. 联机对战时会发生什么</h2>
+<ul>
+    <li>本站<strong>没有自己的服务器</strong>：对局数据只在两名玩家的浏览器之间
+        <strong>点对点（WebRTC）传输</strong>，不经过我们。</li>
+    <li>为了把两名玩家牵上线，会使用<strong>第三方公共信令服务 PeerJS</strong>（<code>0.peerjs.com</code>）
+        以及浏览器内置的 STUN/TURN。该信令服务在建立连接时可能看到<strong>房间号</strong>与
+        建立连接所必需的技术信息（如 IP 地址 / ICE 候选），这些信息由该服务按其自身隐私政策处理；
+        我们既无法访问，也不存储相关记录。</li>
+    <li>浏览器询问「允许暴露内网 IP」时，是否允许<strong>由你的浏览器决定</strong>；
+        它只用于让同一局域网内的两人直连更快，不会发送给我们。</li>
+</ul>
+
+<h2>4. 站点托管</h2>
+<p>本站托管在 <strong>GitHub Pages</strong>。作为托管方，GitHub 可能按自己的隐私声明记录标准的访问日志
+    （例如 IP、浏览器 User-Agent）。我们<strong>无法访问</strong>这些日志。</p>
+
+<h2>5. 第三方</h2>
+<p>本站不使用任何统计（Analytics）、广告、社交插件或追踪像素；不设置任何 Cookie；
+    不把任何数据出售或提供给第三方用于营销。</p>
+
+<h2>6. 儿童隐私</h2>
+<p>本站不收集任何用户数据，因此也不会收集儿童的个人信息。</p>
+
+<h2>7. 联系方式</h2>
+<p>如对本声明有疑问，请联系：<a href="mailto:【请替换成你的邮箱】">【请替换成你的邮箱】</a></p>
+<p class="todo">← 发布前请把这里（以及下方英文版 Contact）替换成你的真实邮箱 ✓</p>
+
+<h2>8. 变更</h2>
+<p>本声明可能随项目更新而调整，最新版本始终以本页内容为准。</p>
+
+<hr>
+
+<h2>Privacy Statement (English)</h2>
+<p class="meta">Applies to: <code>https://sasakichie666.github.io/DULEXS/</code> · Last updated: 2026-10</p>
+
+<p><strong>Summary: this site does not collect, upload, or sell any personal information.</strong>
+    There is no account system, no forms, no cookies, no analytics, and no advertising.</p>
+
+<ul>
+    <li><strong>Not collected:</strong> names, email addresses, phone numbers, accounts, passwords,
+        location, contacts, camera/microphone data, payment data, advertising identifiers,
+        or any cross-site tracking. There is no login and no password is ever requested
+        (the "room code" used for online play is only a short identifier for pairing two players).</li>
+
+    <li><strong>Stored locally in your own browser only (never transmitted):</strong>
+        your deck lists and two interface preferences, kept in <code>localStorage</code>
+        (<code>savedDeck</code>, <code>responseIgnoreTimePoints</code>, and deck-builder filters).
+        Clearing browser data removes them. We cannot read them.</li>
+
+    <li><strong>Online play:</strong> matches run peer-to-peer over WebRTC directly between the two
+        players' browsers. A third-party public signaling service (PeerJS cloud,
+        <code>0.peerjs.com</code>, plus public STUN/TURN) is used only to introduce the players;
+        it may see the room code and the technical connection metadata (IP address / ICE candidates)
+        required to establish the link, and handles it under its own privacy policy.
+        Game data is never routed through any server of ours, and we keep no records.</li>
+
+    <li><strong>Hosting:</strong> provided by GitHub Pages. As the host, GitHub may keep standard
+        access logs (e.g. IP address, browser User-Agent) under its own privacy statement.
+        We have no access to those logs.</li>
+
+    <li><strong>Third parties:</strong> no analytics, advertising, social plugins, or tracking pixels
+        are used; no cookies are set; no data is sold or shared for marketing.</li>
+
+    <li><strong>Children's privacy:</strong> since no user data is collected at all, no children's
+        personal information is collected either.</li>
+
+    <li><strong>Contact:</strong> [replace with your email address]</li>
+</ul>
+
+<p class="meta">
+    This statement may be updated together with the project; the version published on this page is
+    always the current one.
+</p>
+
+</main>
+</body>
+</html>
