@@ -1,0 +1,46 @@
+/* css/card-origin.css
+   卡牌来源特效框（新增）—— 让「被转移控制权的卡」和「复制出来的卡」一眼区别于普通卡 ✓
+   使用方式：js/ui.js 的 applyCardMarkers() 会按 card.origin 给卡面加上
+             .is-transferred / .is-copy，并插入一个 .origin-tag 角标 ✓
+   覆盖范围：战场 / 手牌 / 费用区（凡是带 data-instance-id 的卡面都生效 ✓） */
+
+/* 转移来的卡：紫色描边（用 outline，避免和「本回合进入战场」的 box-shadow 打架 ✓） */
+.card-full.is-transferred {
+    outline: 2px solid rgba(168, 128, 255, 0.95);
+    outline-offset: -2px;
+}
+
+/* 复制出来的卡：金色描边 */
+.card-full.is-copy {
+    outline: 2px solid rgba(255, 205, 70, 0.95);
+    outline-offset: -2px;
+}
+
+/* 左上角小角标：转 / 复（右上角留给「新」标记 ✓） */
+.origin-tag {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.62rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #0d1117;
+    z-index: 13;
+    pointer-events: none;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+.origin-tag.transfer { background: linear-gradient(180deg, #cbb2ff 0%, #9257ff 100%); }
+.origin-tag.copy { background: linear-gradient(180deg, #ffe08a 0%, #ffb300 100%); }
+
+/* 悬浮时轻微放大，便于识别（不影响点击，标签本身 pointer-events:none ✓） */
+.card-full.is-transferred:hover,
+.card-full.is-copy:hover {
+    outline-width: 3px;
+}

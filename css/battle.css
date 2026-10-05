@@ -1,0 +1,1370 @@
+/* css/battle.css */
+/* ========== 战斗视图样式（无文字布局干扰） ========== */
+#view-battle {
+    height: 100%;
+    flex: 1;
+    min-height: 0;      /* 允许内部区域自行滚动，绝不被内容撑高 */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* 战斗视图：隐藏顶部导航，整屏交给牌桌（图1 / 图2 均为全屏牌桌） */
+body.view-battle-active .top-nav {
+    display: none;
+}
+/* 牌桌固定为一屏高度：日志再长也只会内部滚动，不会把整页撑长 */
+body.view-battle-active #app {
+    max-width: min(1900px, 99vw);
+    height: 98vh;
+    min-height: 0;
+}
+body.view-battle-active .main-content {
+    padding: 4px 6px;
+    gap: 0;
+}
+body.view-battle-active #view-battle {
+    gap: 0;
+}
+
+.battle-container {
+    position: relative;
+    --rail-w: 78px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 12px;
+    flex: 1;
+    min-height: 0;
+    padding: 10px 12px;
+    border-radius: 16px;
+    /* 现代牌桌：中心冷光 + 深色基底 */
+    background:
+        radial-gradient(ellipse 90% 60% at 50% 42%, rgba(80, 120, 200, 0.10) 0%, rgba(0, 0, 0, 0) 65%),
+        linear-gradient(180deg, #0d1626 0%, #0a1020 55%, #080c16 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+/* ===== 中央牌桌（占满剩余宽度） ===== */
+.battle-table {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ===== 半区（对手在上 / 自己在下，对称） =====
+   - flex: 1 让两个半区平分牌桌高度 → 分界线自然居中，且不再在分界线两侧留下空档
+   - z-index 高于手牌：即使手牌发生任何溢出，也绝不会盖住场地（后场） */
+.half {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+/* ===== 玩家信息块（左侧列顶部：头像 + 右下角血量徽章 + 手牌/费牌统计） =====
+   布局：头像与血量合成一体，统计做成胶囊；整块在费用区正上方，构成左列一组。 */
+.half-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 2px 4px 6px;
+    min-height: 58px;
+    flex-shrink: 0;
+}
+.half-info .pc-avatar {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    line-height: 1;
+    flex-shrink: 0;
+    background: radial-gradient(circle at 35% 30%, rgba(120, 170, 255, 0.24), rgba(0, 0, 0, 0.6));
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+}
+.half.self-half .half-info .pc-avatar {
+    border-color: rgba(120, 200, 255, 0.42);
+}
+/* 血量：小徽章挂在头像【右下角】，主体在头像之外，不会盖住头像图案 */
+.half-info .player-health {
+    position: absolute;
+    right: -11px;
+    bottom: -9px;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 7px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.74rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+    background: linear-gradient(180deg, #2b3a55, #16202f);
+    border: 2px solid rgba(255, 255, 255, 0.24);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.55);
+    z-index: 2;
+}
+.half-info .player-health::after {
+    content: '❤';
+    position: absolute;
+    top: -7px;
+    right: -4px;
+    font-size: 0.5rem;
+    color: #ff8199;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+}
+/* 手牌 / 费牌统计：胶囊，与头像血量构成一组 */
+.half-info .pc-stats {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    flex-wrap: wrap;
+}
+.half-info .pc-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 28px;
+    padding: 0 11px;
+    border-radius: 999px;
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    white-space: nowrap;
+}
+.half-info .pc-stat b {
+    color: #fff;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+.half-info .pc-stat i {
+    font-style: normal;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* ================= 右侧细工具栏（借鉴图1 的窄侧轨 + 图2 的极简） ================= */
+.battle-rail {
+    width: auto;
+    min-width: var(--rail-w);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: 8px 6px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(0, 0, 0, 0.22));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+}
+.battle-rail::-webkit-scrollbar {
+    display: none;
+}
+
+/* 回合数显示已移除：中央分界线（#dividerText）已显示「第 N 回合 · 谁的回合」，不再重复 */
+
+/* ===== 右下角操作区（图2 风格：悬浮胶囊主按钮，锚在牌桌右下角） ===== */
+.battle-actions {
+    position: absolute;
+    right: 18px;
+    bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 70;
+}
+.end-turn-btn {
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #fff;
+    background: linear-gradient(180deg, #4d8dff, #2f6ae0);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0 6px 18px rgba(47, 106, 224, 0.45);
+    white-space: nowrap;
+    transition: background 0.15s ease, box-shadow 0.15s ease;
+}
+.end-turn-btn:hover:not(:disabled) {
+    background: linear-gradient(180deg, #5d99ff, #3a76ea);
+    box-shadow: 0 8px 22px rgba(47, 106, 224, 0.6);
+}
+.end-turn-btn:disabled {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.10);
+    color: rgba(255, 255, 255, 0.38);
+    box-shadow: none;
+    cursor: default;
+}
+.end-turn-btn.is-active-turn {
+    animation: endTurnPulse 2.4s ease-in-out infinite;
+}
+@keyframes endTurnPulse {
+    0%, 100% { box-shadow: 0 6px 18px rgba(47, 106, 224, 0.45); }
+    50%      { box-shadow: 0 6px 26px rgba(105, 170, 255, 0.78); }
+}
+
+/* 右边缘回合刻度尺已按需求移除（回合数只在中央分界线显示） */
+
+/* 分隔线与普通按钮 */
+.rail-sep {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.07);
+    margin: 2px 0;
+    flex-shrink: 0;
+}
+.rail-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.72rem;
+    padding: 7px 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+}
+.rail-btn:hover,
+.rail-btn.active {
+    color: #fff;
+    border-color: var(--accent);
+    background: rgba(233, 69, 96, 0.22);
+}
+
+/* ================= 日志面板（嵌在右侧工具栏内，✕ 可折叠） =================
+   高度上限是硬性的：日志再多也只在这个框里滚动，不会把工具栏/整页撑长 */
+.battle-log-panel {
+    flex: 0 1 auto;
+    width: 240px;
+    min-width: 240px;
+    height: min(46vh, 420px);
+    max-height: min(46vh, 420px);
+    min-height: 140px;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px;
+    border-radius: 12px;
+    background: rgba(9, 15, 28, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+}
+.battle-log-panel.open {
+    display: flex;
+}
+.battle-log-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 5px;
+}
+.battle-log-header .log-actions {
+    display: flex;
+    gap: 4px;
+}
+
+/* 对局日志列表：只有这里滚动，且高度绝不外溢 */
+.battle-log-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding-right: 3px;
+}
+.battle-log-item {
+    display: flex;
+    gap: 6px;
+    font-size: 0.7rem;
+    line-height: 1.35;
+    padding: 3px 6px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 2px solid rgba(255, 255, 255, 0.12);
+}
+.battle-log-item .log-time {
+    color: rgba(255, 255, 255, 0.28);
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+}
+.battle-log-item .log-text {
+    color: rgba(255, 255, 255, 0.72);
+    word-break: break-word;
+}
+/* 行动者标签：由渲染层根据日志类型自动加上「你 / 对手 / 回合 / 系统」 */
+.battle-log-item .log-actor {
+    flex-shrink: 0;
+    font-size: 0.64rem;
+    font-weight: 700;
+    line-height: 1.5;
+    padding: 0 5px;
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.62);
+    background: rgba(255, 255, 255, 0.07);
+}
+.battle-log-item.log-self .log-actor {
+    color: #9fe6a8;
+    background: rgba(76, 175, 80, 0.18);
+}
+.battle-log-item.log-opponent .log-actor {
+    color: #ff9db0;
+    background: rgba(233, 69, 96, 0.18);
+}
+.battle-log-item.log-turn .log-actor {
+    color: #ffd76a;
+    background: rgba(255, 215, 106, 0.16);
+}
+.battle-log-item.log-self { border-left-color: #4caf50; }
+.battle-log-item.log-opponent { border-left-color: #e94560; }
+.battle-log-item.log-turn {
+    border-left-color: #ffd76a;
+    background: rgba(255, 215, 106, 0.07);
+}
+.battle-log-empty {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.25);
+    text-align: center;
+    padding: 12px 0;
+}
+.log-clear-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.62rem;
+    padding: 1px 7px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0;
+}
+.log-clear-btn:hover {
+    color: #fff;
+    border-color: var(--accent);
+    background: rgba(233, 69, 96, 0.2);
+}
+
+/* 工具区：原固定侧边栏改为嵌在细工具栏内的紧凑布局 */
+.battle-rail .side-panel-container {
+    position: static;
+    right: auto;
+    top: auto;
+    transform: none;
+    z-index: auto;
+    width: 100%;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+}
+.battle-rail .side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.battle-rail .side-btn {
+    padding: 7px 2px;
+    font-size: 0.72rem;
+    line-height: 1.2;
+    letter-spacing: 0;
+    white-space: normal;
+    border-radius: 8px;
+}
+.battle-rail .side-toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 0.62rem;
+    line-height: 1.2;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.42);
+    padding: 4px 0 0;
+}
+
+/* 对手区域 */
+.player-area.opponent {
+    /* flex-basis 0（而不是 auto）→ 主轴尺寸在规范意义上属于「确定高度」，
+       这样内部 .field-slot 的 height:100% 才能解析，卡牌才能随行高自动缩放 */
+    flex: 1 1 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 战场容器：三栏栅格（费用区 | 前/后场 | 牌库区）；图2 风格 = 整体无框
+   align-items: stretch → 三列撑满半区高度，前后场行吸收富余空间，
+   这样「前场 → 分界线」之间只剩牌桌的 gap，不再有被 auto margin 撑出的空档 */
+.battle-field-wrapper {
+    flex: 1 1 0;           /* 同样用确定高度，保证内部百分比高度可解析 */
+    min-height: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: stretch;
+    gap: 24px;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+/* ===== 半区左侧一列：上方玩家信息块，下方费用区（两个半区一致） ===== */
+.left-column {
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 10px;
+    min-height: 0;
+}
+
+/* 费用区（无框：像贴在桌边的一叠费用卡） */
+.cost-zone {
+    position: relative;
+    grid-column: 1;
+    justify-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+/* 牌库区（无框：像桌角的牌堆架）
+   右侧一列两行（传说/主牌/墓场 + 个人/费用/放逐），
+   用 grid 1fr 1fr 让两行铺满半区高度，格子随行高自动放大，右边不再留大片空白。 */
+.deck-zone {
+    position: relative;
+    grid-column: 3;
+    justify-self: end;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px 6px;
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+/* 前后场容器：撑满半区高度，用 grid 均分两行（1fr 1fr）
+   —— grid 轨道高度是「确定高度」，行内的 .field-slot 才能用 height:100% 反推宽度，
+      卡牌因此随行高自动变大/变小，永远填满前后场且不变形。 */
+.field-zone-container {
+    grid-column: 2;
+    width: 100%;
+    min-height: 0;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 6px;              /* 前后场紧贴：两行之间只留 6px，空间尽量留给卡牌 */
+}
+
+/* ========== 区域标签已移除以贴近图2 的无文字战场（前场/后场/费用区/牌库区不再显示胶囊）
+   —— 牌库空位仍由 .slot-placeholder 的「主牌库 / 墓场 / 放逐区…」小字区分 ========== */
+
+/* 自己区域 */
+.player-area.self {
+    flex: 1 1 0;           /* 同对手侧：确定高度，供内部百分比高度解析 */
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.self-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 手牌区（图2 风格：无框、单行扇形、贴底铺开、可向上抬起）
+   flex: 0 0 auto → 绝不被压缩，避免卡牌向上溢出压到后场 */
+.self-hand {
+    position: relative;
+    z-index: 0;
+    /* 固定高度：手牌卡 110 × 4/3 ≈ 146.7 + 底部内边距 10 ≈ 157
+       —— 手牌打光时也保留完全相同的空间，界面绝不发生位移 */
+    flex: 0 0 auto;
+    height: 157px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0 24px 10px;
+    margin-top: 6px;
+    min-height: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: visible;
+}
+
+/* 手牌子区域：各自独立成一行（费用手牌 / 主手牌），便于分别定位 */
+.hand-subzone {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+    gap: 0;
+}
+
+/* ===== 手牌区布局（自适应，计算见 js/interaction/handLayout.js） =====
+   双车道：费用手牌固定走左侧车道，主手牌在剩余车道内**居中对齐** —— 两组永不互相压到；
+   叠压量与缩放由 JS 按「张数 + 可用宽度」实时算出，写在 CSS 变量上：
+     --hl-main-overlap / --hl-cost-overlap  每张露出的宽度（负 margin）
+     --hl-main-scale   / --hl-cost-scale    极端情况下的整组缩放（1 = 不缩放）
+   1.2：已取消「聚焦切换」→ 主手牌恒定居中；费用牌的操作统一走「费用牌界面」批量面板。 */
+#self-hand-main {
+    position: relative;
+}
+#self-hand-cost {
+    position: absolute;
+    left: 24px;                 /* 与手牌区左右内边距对齐 */
+    bottom: 10px;               /* 与主手牌同一基线（手牌区 padding-bottom） */
+}
+#self-hand-main { --card-scale: var(--hl-main-scale, 1); }
+#self-hand-cost { --card-scale: var(--hl-cost-scale, 1); }
+#self-hand-main .card-full.in-hand + .card-full.in-hand {
+    margin-left: var(--hl-main-overlap, -34px);
+}
+#self-hand-cost .card-full.in-hand + .card-full.in-hand {
+    margin-left: var(--hl-cost-overlap, -52px);
+}
+/* 缩放原点：居中那一组从中间缩，左侧车道那一组贴着左边缩 */
+#self-hand-main .card-full.in-hand { transform-origin: bottom center; }
+#self-hand-cost .card-full.in-hand { transform-origin: bottom left; }
+
+/* 1.2：手牌聚焦切换已取消（主手牌恒定居中）→ 原来的 .focus-cost 互换规则已删除 */
+.hand-divider {
+    display: none;
+}
+
+/* 单行叠压 + 扇形排列：后一张压住前一张；
+   居中（聚焦）那一组按弧线排列，--fan-rot（倾角）/ --fan-y（抬高）由 handLayout.js 计算 */
+.self-hand .card-full.in-hand {
+    position: relative;
+    flex: 0 0 auto;
+    transform: translateY(var(--fan-y, 0px)) rotate(var(--fan-rot, 0deg));
+    scale: var(--card-scale, 1);          /* 极端张数时整组等比缩小（handLayout.js 计算） */
+    transition: transform 0.15s ease, translate 0.15s ease, box-shadow 0.15s ease, scale 0.15s ease;
+}
+.self-hand .card-full.in-hand + .card-full.in-hand {
+    margin-left: -34px;                   /* 兜底值：实际由 --hl-*-overlap 覆盖 */
+}
+/* 悬停上抬用独立属性 translate（不覆盖 transform，扇形倾角得以保留），并同时放大 */
+.self-hand .card-full.in-hand:hover {
+    translate: 0 -26px;
+    scale: calc(var(--card-scale, 1) * 1.12);
+    z-index: 40;
+}
+/* ===== 调度（起始手牌）阶段：手牌区不渲染手牌 =====
+   这 4 张牌只在「起始手牌」界面里展示；此处仅隐藏内容，容器仍占 157px，
+   因此界面不会位移。双方都确认调度后由 MulliganManager 移除本类并渲染手牌。 */
+.self-hand.mulligan-hidden .card-full,
+.self-hand.mulligan-hidden .hand-placeholder {
+    visibility: hidden;
+}
+
+/* ===== 选中反馈（点开菜单时） =====
+   手牌：保持与 hover 完全一致的悬浮置顶，并加金色描边 —— 明确提示「这张被选中了」；
+        写在 hover 规则之后，同特异性下后出现的生效，因此鼠标移开也维持抬起状态。
+   场地 / 费用区卡牌：只加一圈金色描边，不改变位置（避免打乱战场布局）。 */
+.self-hand .card-full.in-hand.is-selected {
+    translate: 0 -26px;                   /* 同样用独立属性，保留扇形倾角 */
+    z-index: 45;
+    border-color: #ffd700;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6),
+                0 0 0 2px rgba(255, 215, 0, 0.85),
+                0 0 18px rgba(255, 215, 0, 0.35);
+}
+.card-full.on-field.is-selected {
+    border-color: #ffd700;
+    box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.85),
+                0 0 14px rgba(255, 215, 0, 0.35);
+    z-index: 30;
+}
+
+/* 手牌占位提示 */
+.hand-placeholder {
+    align-self: center;          /* 在手牌区的固定高度内垂直居中，空手牌也不塌陷 */
+    color: rgba(255, 255, 255, 0.20);
+    font-size: 0.78rem;
+    letter-spacing: 3px;
+    text-align: center;
+    padding: 10px;
+    white-space: nowrap;
+}
+
+/* 战场行容器（前/后场）：整行扣满宽度，纵向居中放卡 */
+.field-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 0;
+}
+/* 前后场：无框（图2 风格）；行高由 .field-zone-container 的 1fr 1fr 轨道决定，
+   行内卡牌用 height:100% 反推宽度（见 .field-slot），因此前后场永远被填满 */
+.field-row:not(.cost-row) {
+    position: relative;
+    padding: 2px 0;
+    border-radius: 0;
+    background: transparent;
+    border: none;
+    min-height: 0;
+}
+/* 内容朝「分界线」方向对齐：前后两行都贴向分界线，
+   两行卡牌之间只剩容器那 6px 间距，紧凑且不浪费空间 */
+.half.opponent-half .field-row.front,
+.half.opponent-half .field-row.back {
+    align-items: flex-end;
+}
+.half.opponent-half .field-zone {
+    align-items: flex-end;
+}
+.half.self-half .field-row.front,
+.half.self-half .field-row.back {
+    align-items: flex-start;
+}
+.half.self-half .field-zone {
+    align-items: flex-start;
+}
+/* 中央分界线（原「公共区」已移除，公开功能后续重做）：一条横贯细线 + 居中回合提示 */
+.table-divider {
+    position: relative;
+    flex: 0 0 auto;
+    height: 14px;
+    display: flex;
+    align-items: center;
+}
+.table-divider::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(90deg,
+        rgba(120, 170, 255, 0) 0%,
+        rgba(120, 170, 255, 0.22) 10%,
+        rgba(120, 170, 255, 0.22) 90%,
+        rgba(120, 170, 255, 0) 100%);
+}
+
+/* 分界线中央的回合提示（如：第 2 回合 · 你的回合） */
+.divider-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.66rem;
+    letter-spacing: 1px;
+    padding: 1px 14px;
+    border-radius: 999px;
+    background: #0d1626;
+    border: 1px solid rgba(120, 170, 255, 0.22);
+    color: rgba(175, 212, 255, 0.82);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 20;
+}
+
+/* 内部容器（JS 生成 .field-zone 包裹格子）：必须撑满行高，
+   否则里面 .field-slot 的 height:100% 会解析不到（高度链断在这里） */
+.field-zone {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    height: 100%;
+}
+
+/* 战场格子：默认完全隐形，仅在拖拽 / 放置选择时浮现
+   尺寸：高度跟随「场地行」的高度（行撑满半区），卡牌因此填满前后场、不留空档；
+        再用 max-height 封顶（148 ≈ 手牌卡高度），宽高始终锁定 3:4 不变形。 */
+.field-slot {
+    flex: 0 0 auto;
+    width: auto;
+    height: 100%;
+    max-height: 148px;
+    aspect-ratio: 3/4;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    position: relative;
+    transition: border-color 0.15s ease, background 0.15s ease,
+                box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+/* 费用区格子 */
+.cost-zone .field-slot {
+    flex: 0 0 56px;
+    width: 56px;
+    aspect-ratio: 1/1;
+    border-radius: 8px;
+}
+
+/* 牌库区格子：与场地卡同尺寸体系（高度跟随行高、3:4 比例、上限 148px） */
+.deck-zone .deck-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+}
+.deck-zone .deck-slot {
+    flex: 0 0 auto;
+    width: auto;
+    height: 100%;
+    /* 上限刻意小于场地卡（场地卡 max-height:148，此处 102 ≈ 0.69 倍）
+       —— 牌库是配角，战场才是主角 */
+    max-height: 102px;
+    aspect-ratio: 3/4;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s, background 0.2s;
+}
+/* 有牌堆的槽位呈现为实体牌堆 */
+.deck-zone .deck-slot:not(.empty) {
+    border-color: rgba(255, 255, 255, 0.10);
+    background: rgba(0, 0, 0, 0.28);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+}
+/* 空牌堆仅显示淡淡的区域名（不再显示虚线格子）：字号随放大的格子略微上调 */
+.deck-zone .deck-slot.empty .slot-placeholder {
+    color: rgba(255, 255, 255, 0.30);
+    font-size: 0.68rem;
+    line-height: 1.25;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* 空格子悬停 */
+.field-slot.empty,
+.deck-slot.empty {
+    cursor: pointer;
+}
+.field-slot.empty:hover,
+.deck-slot.empty:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.035);
+}
+
+/* 非空牌库槽位悬停效果（与卡牌类似） */
+.deck-slot:not(.empty):hover {
+    border-color: var(--accent);
+    box-shadow: 0 6px 16px rgba(233, 69, 96, 0.3);
+    transform: translateY(-2px);
+}
+/* 牌堆内的卡背不参与单独抬起，避免被槽位裁剪 */
+.deck-slot .card-full:hover {
+    transform: none;
+}
+
+/* 牌库卡背样式 */
+.deck-card-back {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    border-radius: 6px;
+    background: #2a3a5c;
+    color: #ccc;
+    user-select: none;
+}
+.deck-card-back.mainDeck {
+    background: #1a3a6a;
+}
+.deck-card-back.costDeck {
+    background: #2a6a3a;
+}
+
+/* 牌库数量角标（随放大的格子略微加大，远看也能读清） */
+.deck-count-badge {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    font-size: 0.76rem;
+    padding: 3px 7px;
+    border-radius: 10px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* 卡牌在格子中的基础尺寸（不涉及文字） */
+.card-full.on-field {
+    width: 100%;
+    height: 100%;
+    min-height: unset;
+    min-width: unset;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 手牌卡牌基础尺寸（保持原大小：空间问题已在场地侧解决） */
+.card-full.in-hand {
+    width: 110px;
+    aspect-ratio: 3/4;
+    height: auto;
+    min-height: unset;
+    padding: 6px;
+}
+
+/* 牌背与占位符 */
+.card-back {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.slot-placeholder {
+    pointer-events: none;
+    user-select: none;
+}
+
+/* 隐藏前场、后场、费用区空格子的加号 */
+.field-slot.empty .slot-placeholder {
+    display: none;
+}
+
+/* 堆叠最上面的卡牌基础尺寸 */
+.stack-top {
+    width: 100%;
+    height: 100%;
+    min-height: unset;
+    min-width: unset;
+    padding: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* 公共区域已从界面移除（公开功能后续重做），其格子样式一并删除 */
+
+/* 响应式 */
+@media (max-width: 600px) {
+    .main-content {
+        padding: 12px;
+    }
+    .top-nav {
+        padding: 12px 16px;
+    }
+    .top-nav .logo {
+        font-size: 1.2rem;
+    }
+    .btn {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+    .lobby-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .deck-manager-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .card-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+}
+
+/* ==================================================================
+   格子浮现系统：默认隐形，仅在「拖拽中」或「打出 / 放置选择中」时浮现
+   视觉：实线方框 + 呼吸光晕（不用虚线，也不显示＋号）
+   ================================================================== */
+
+/* 呼吸动画：颜色由 --breathe-rgb 决定，蓝=可放置 / 绿=菜单选择 / 金=装备目标 */
+@keyframes slotBreathe {
+    0%, 100% {
+        border-color: rgba(var(--breathe-rgb), 0.45);
+        background: rgba(var(--breathe-rgb), 0.05);
+        box-shadow: 0 0 0 0 rgba(var(--breathe-rgb), 0), inset 0 0 8px rgba(var(--breathe-rgb), 0.06);
+    }
+    50% {
+        border-color: rgba(var(--breathe-rgb), 0.95);
+        background: rgba(var(--breathe-rgb), 0.15);
+        box-shadow: 0 0 16px 1px rgba(var(--breathe-rgb), 0.35), inset 0 0 16px rgba(var(--breathe-rgb), 0.18);
+    }
+}
+
+/* 默认呼吸色：蓝（保证任何情况下 var(--breathe-rgb) 都能解析） */
+:root {
+    --breathe-rgb: 120, 170, 255;
+}
+
+/* ---- 拖拽中：只浮现「合法落点」，且限定自己半区 ----
+   随从 → 前场 ｜ 战术 → 后场 ｜ 费用 → 费用区
+   未知类型（例如从牌库拖出的牌背）→ 前后场 + 费用区全部浮现（可移动到任意区域）
+   牌库堆（主牌库/墓场/放逐…）→ 仅"从场上或牌库拖拽"时浮现，手牌拖拽不亮 */
+body.drag-active.drag-type-minion .half.self-half .field-row.front .field-slot.empty,
+body.drag-active.drag-type-tactic .half.self-half .field-row.back .field-slot.empty,
+body.drag-active.drag-type-cost .half.self-half .cost-zone .field-slot.empty,
+body.drag-active.drag-type-other .half.self-half .field-row .field-slot.empty,
+body.drag-active.drag-from-field .deck-zone[data-side="self"] .deck-slot.empty,
+body.drag-active.drag-from-deck .deck-zone[data-side="self"] .deck-slot.empty {
+    --breathe-rgb: 120, 170, 255;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgba(var(--breathe-rgb), 0.6);
+    background: rgba(var(--breathe-rgb), 0.07);
+    animation: slotBreathe 1.9s ease-in-out infinite;
+}
+
+/* 波浪式浮现：相邻格子错开相位，观感更"活"（现代游戏常见做法） */
+body.drag-active .field-slot.empty:nth-child(2n),
+body.drag-active .deck-slot.empty:nth-child(2n) {
+    animation-delay: 0.24s;
+}
+body.drag-active .field-slot.empty:nth-child(3n) {
+    animation-delay: 0.48s;
+}
+
+/* 注：空位内的 ＋ 号不再显示 —— .field-slot.empty .slot-placeholder 默认即 display:none */
+
+/* 拖拽悬停的目标：实线品红 + 强光晕，并暂停呼吸避免闪烁 */
+.field-slot.drop-highlight,
+.deck-slot.drop-highlight {
+    --breathe-rgb: 233, 69, 96;
+    border-style: solid !important;
+    border-width: 2px !important;
+    border-color: var(--accent) !important;
+    background: rgba(233, 69, 96, 0.20) !important;
+    box-shadow: 0 0 20px rgba(233, 69, 96, 0.55), inset 0 0 16px rgba(233, 69, 96, 0.20) !important;
+    animation: none !important;
+}
+
+/* 菜单选择（登场 / 发动 / 支付 / 盖伏）时的可放置空位：实线绿色 + 呼吸
+   注意：这里刻意不用 !important，否则会压住呼吸动画的 border-color / background */
+.field-slot.selectable,
+body.drag-active .field-slot.selectable,
+body.place-select .field-slot.selectable {
+    --breathe-rgb: 76, 175, 80;
+    border-style: solid;
+    border-color: rgba(var(--breathe-rgb), 0.85);
+    background: rgba(var(--breathe-rgb), 0.12);
+    cursor: pointer;
+    animation: slotBreathe 1.9s ease-in-out infinite;
+}
+.field-slot.selectable:hover {
+    background: rgba(var(--breathe-rgb), 0.26) !important;
+    border-color: rgb(var(--breathe-rgb)) !important;
+    box-shadow: 0 0 22px rgba(var(--breathe-rgb), 0.55), inset 0 0 16px rgba(var(--breathe-rgb), 0.22) !important;
+    animation-play-state: paused;
+}
+
+/* 装备目标选择：实线金色 + 呼吸 */
+.field-slot.equip-selectable,
+body.drag-active .field-slot.equip-selectable,
+body.place-select .field-slot.equip-selectable {
+    --breathe-rgb: 255, 215, 0;
+    border-style: solid;
+    border-color: rgba(var(--breathe-rgb), 0.85);
+    background: rgba(var(--breathe-rgb), 0.12);
+    cursor: pointer;
+    animation: slotBreathe 1.9s ease-in-out infinite;
+}
+.field-slot.equip-selectable:hover {
+    background: rgba(var(--breathe-rgb), 0.26) !important;
+    border-color: rgb(var(--breathe-rgb)) !important;
+    box-shadow: 0 0 22px rgba(var(--breathe-rgb), 0.5) !important;
+    animation-play-state: paused;
+}
+
+/* 悬停到「可放置空位」：实线加强 + 更亮光晕，并暂停呼吸避免闪烁 */
+body.drag-active.drag-type-minion .half.self-half .field-row.front .field-slot.empty:hover,
+body.drag-active.drag-type-tactic .half.self-half .field-row.back .field-slot.empty:hover,
+body.drag-active.drag-type-cost .half.self-half .cost-zone .field-slot.empty:hover,
+body.drag-active.drag-type-other .half.self-half .field-row .field-slot.empty:hover,
+body.drag-active.drag-from-field .deck-zone[data-side="self"] .deck-slot.empty:hover,
+body.drag-active.drag-from-deck .deck-zone[data-side="self"] .deck-slot.empty:hover {
+    border-color: rgb(var(--breathe-rgb));
+    background: rgba(var(--breathe-rgb), 0.22);
+    box-shadow: 0 0 18px rgba(var(--breathe-rgb), 0.45), inset 0 0 14px rgba(var(--breathe-rgb), 0.18);
+    animation-play-state: paused;
+}
+
+/* 系统开启「减少动态效果」时不做呼吸（只关动画，不改颜色，避免把不该亮的格子染色） */
+@media (prefers-reduced-motion: reduce) {
+    body.drag-active .field-slot.empty,
+    body.drag-active .deck-slot.empty,
+    .field-slot.selectable,
+    .field-slot.equip-selectable {
+        animation: none;
+    }
+}
+
+/* ========== 响应式 ========== */
+/* 中等宽度：缩小格子，保证「战场 + 细工具栏」不溢出 */
+@media (max-width: 1240px) {
+    .battle-field-wrapper {
+        gap: 10px;
+        padding: 0;
+    }
+    .field-slot { max-height: 120px; }   /* 场地卡上限：高度仍由行高决定，只是封顶收窄 */
+    .cost-zone .field-slot { flex: 0 0 50px; width: 50px; }
+    .deck-zone .deck-slot { max-height: 83px; }   /* 同步略小于场地卡（120） */
+}
+@media (max-width: 1100px) {
+    .field-slot { max-height: 104px; }
+    .cost-zone .field-slot { flex: 0 0 44px; width: 44px; }
+    .deck-zone .deck-slot { max-height: 72px; }
+    .field-row:not(.cost-row) { padding: 1px 0; }
+    .cost-zone, .deck-zone { padding: 0; }
+    /* 窄屏：日志面板收窄，保证战场空间 */
+    .battle-log-panel { width: 200px; min-width: 200px; height: min(40vh, 320px); }
+}
+/* 窄屏：细工具栏移到牌桌下方横向排列 */
+@media (max-width: 960px) {
+    .battle-container {
+        flex-direction: column;
+    }
+    .battle-rail {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        overflow: visible;
+    }
+    .battle-rail .rail-sep {
+        width: 1px;
+        height: 22px;
+        margin: 0 2px;
+    }
+    .battle-rail .side-panel-container { flex: 1 1 auto; }
+    .battle-rail .side-panel {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .battle-rail .side-btn {
+        flex: 1 1 auto;
+        min-width: 44px;
+    }
+    .battle-rail .side-toggle {
+        flex-direction: row;
+        gap: 6px;
+        padding: 0 4px;
+    }
+    .rail-btn {
+        flex: 0 0 auto;
+        padding: 7px 12px;
+    }
+    .battle-actions {
+        right: 14px;
+        bottom: 8px;
+    }
+    .battle-log-panel {
+        width: 100%;
+        min-width: 0;
+        flex: 0 0 auto;
+        height: min(38vh, 260px);
+        max-height: 260px;
+        min-height: 120px;
+    }
+}
+@media (max-width: 820px) {
+    .field-slot { max-height: 92px; }
+    .cost-zone .field-slot { flex: 0 0 40px; width: 40px; }
+    .deck-zone .deck-slot { max-height: 64px; }
+    .field-row:not(.cost-row) { padding: 0; }
+    .cost-zone, .deck-zone { padding: 0; }
+    /* 窄屏：玩家信息块收窄 */
+    .half-info { gap: 10px; min-height: 48px; padding-bottom: 8px; }
+    .half-info .pc-avatar { width: 38px; height: 38px; font-size: 1.1rem; }
+    .half-info .player-health { right: -7px; bottom: -6px; min-width: 28px; height: 28px; font-size: 0.78rem; }
+    .half-info .pc-stat { height: 24px; padding: 0 9px; font-size: 0.7rem; }
+}
+
+/* ========== 矮屏适配（720p 及更低） ==========
+   只收紧信息块与场地行的最小高度；手牌保持原尺寸（空间已由场地侧让出） */
+@media (max-height: 780px) {
+    .half-info { min-height: 52px; padding-bottom: 8px; gap: 12px; }
+    .half-info .pc-avatar { width: 44px; height: 44px; font-size: 1.2rem; }
+    .half-info .player-health { right: -10px; bottom: -8px; min-width: 24px; height: 24px; border-radius: 12px; font-size: 0.7rem; }
+    .half-info .pc-stat { height: 24px; padding: 0 9px; font-size: 0.7rem; }
+    .half { gap: 6px; }
+    .battle-table { gap: 8px; }
+}
+
+/* 费用区卡牌：仅保留背景与颜色圆点（无文字规则） */
+.cost-zone .card-full {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.cost-zone .card-full::before {
+    content: '';
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #ccc;
+    box-shadow: 0 0 8px rgba(0,0,0,0.6);
+}
+.cost-zone .card-full.color-red::before { background: var(--color-red); }
+.cost-zone .card-full.color-blue::before { background: var(--color-blue); }
+.cost-zone .card-full.color-green::before { background: var(--color-green); }
+.cost-zone .card-full.color-white::before { background: var(--color-white); }
+.cost-zone .card-full.color-purple::before { background: var(--color-purple); }
+.cost-zone .card-full.color-yellow::before { background: var(--color-yellow); }
+.cost-zone .card-full.color-cyan::before { background: var(--color-cyan); }
+
+/* 堆叠区费用卡：颜色圆点自适应大小 */
+.card-full.stack-top.color-red,
+.card-full.stack-top.color-blue,
+.card-full.stack-top.color-green,
+.card-full.stack-top.color-white,
+.card-full.stack-top.color-purple,
+.card-full.stack-top.color-yellow,
+.card-full.stack-top.color-cyan {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.card-full.stack-top.color-red::before,
+.card-full.stack-top.color-blue::before,
+.card-full.stack-top.color-green::before,
+.card-full.stack-top.color-white::before,
+.card-full.stack-top.color-purple::before,
+.card-full.stack-top.color-yellow::before,
+.card-full.stack-top.color-cyan::before {
+    content: '';
+    width: 40%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #ccc;
+    box-shadow: 0 0 6px rgba(0,0,0,0.5);
+}
+.card-full.stack-top.color-red::before { background: var(--color-red); }
+.card-full.stack-top.color-blue::before { background: var(--color-blue); }
+.card-full.stack-top.color-green::before { background: var(--color-green); }
+.card-full.stack-top.color-white::before { background: var(--color-white); }
+.card-full.stack-top.color-purple::before { background: var(--color-purple); }
+.card-full.stack-top.color-yellow::before { background: var(--color-yellow); }
+.card-full.stack-top.color-cyan::before { background: var(--color-cyan); }
+
+/* 侧边栏容器：固定定位在屏幕最右侧，垂直居中，竖向排列 */
+.side-panel-container {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(0,0,0,0.75);
+    padding: 16px 10px;
+    border-radius: 12px 0 0 12px;
+    box-shadow: -4px 0 16px rgba(0,0,0,0.5);
+}
+.side-btn {
+    padding: 10px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: all 0.2s;
+}
+.side-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
+}
+.side-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+.side-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    gap: 8px;
+}
+.side-toggle input {
+    margin-left: 0;
+}
+
+
+/* 确保侧边栏内部纵向排列 */
+.side-panel-container .side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ===================== 侧栏「响应」忽略时点浮层（新增） =====================
+   位于「规则」按钮上方；浮层挂 body（工具栏只有 78px 宽，塞不下勾选项 ✗）
+   层级 6400：高于 连锁面板(5900) / 箭头层(6000) / 费用面板(6200) →
+   连锁进行中也能正常勾选忽略 ✓ */
+.side-response-popover {
+    position: fixed;
+    z-index: 6400;
+    box-sizing: border-box;
+    padding: 10px 12px 12px;
+    background: rgba(16, 18, 24, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+    color: var(--text-primary, #eaeaea);
+    max-height: 72vh;
+    overflow-y: auto;
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+.side-response-popover[hidden] { display: none; }
+
+.side-response-popover .sr-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+.side-response-popover .sr-title {
+    font-size: 0.86rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.side-response-popover .sr-close {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    line-height: 1;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.6);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 5px;
+    cursor: pointer;
+}
+.side-response-popover .sr-close:hover {
+    color: #fff;
+    border-color: var(--accent, #e94560);
+}
+.side-response-popover .sr-hint {
+    margin-bottom: 8px;
+    font-size: 0.7rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.5);
+}
+.side-response-popover .sr-hint b { color: #ffb26b; }
+
+.side-response-popover .sr-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.side-response-popover .sr-empty {
+    padding: 8px 2px;
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+.side-response-popover .sr-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+}
+.side-response-popover .sr-item:hover { background: rgba(255, 255, 255, 0.06); }
+.side-response-popover .sr-item input {
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--accent, #e94560);
+}
+.side-response-popover .sr-icon {
+    width: 1.3em;
+    text-align: center;
+    font-size: 0.95em;
+}
+.side-response-popover .sr-label { flex: 1 1 auto; }
+
+/* 已勾选忽略：橙色高亮，一眼看出哪些时点被忽略了 ✓ */
+.side-response-popover .sr-item.ignored {
+    background: rgba(255, 150, 70, 0.14);
+}
+.side-response-popover .sr-item.ignored .sr-label {
+    color: #ffb26b;
+    font-weight: 600;
+}
+/* 不可忽略的时点（如「阻挡宣言」由自己发起）→ 置灰 ✓ */
+.side-response-popover .sr-item.disabled {
+    opacity: 0.42;
+    cursor: not-allowed;
+}

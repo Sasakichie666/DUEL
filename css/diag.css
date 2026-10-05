@@ -1,0 +1,143 @@
+/* css/diag.css */
+/* 连接自检面板（联机排查用）：结果可一键复制发给对方 */
+
+.diag-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.diag-bar .diag-hint {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+/* 本次连接实际走的哪条路（诊断信息，常驻显示） */
+.conn-path {
+    margin: 10px auto 0;
+    max-width: 900px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: rgba(95, 201, 255, 0.08);
+    border: 1px solid rgba(95, 201, 255, 0.28);
+    color: #a8d8ff;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    text-align: center;
+    word-break: break-all;
+}
+
+.conn-path.bad {
+    background: rgba(255, 152, 0, 0.08);
+    border-color: rgba(255, 152, 0, 0.32);
+    color: #ffcf9a;
+}
+
+.diag-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(3, 6, 12, 0.72);
+    backdrop-filter: blur(2px);
+}
+
+.diag-modal {
+    width: min(760px, 94vw);
+    max-height: 86vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+}
+
+.diag-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.diag-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.diag-x {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.diag-x:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+.diag-tip {
+    padding: 10px 16px 0;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.diag-report {
+    flex: 1;
+    min-height: 300px;
+    margin: 12px 16px;
+    padding: 12px;
+    resize: vertical;
+    background: #060a14;
+    color: #cfe0ff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    white-space: pre;
+    overflow: auto;
+}
+
+.diag-foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.diag-btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+}
+
+.diag-btn-warn {
+    background: rgba(255, 152, 0, 0.14);
+    border-color: rgba(255, 152, 0, 0.55);
+    color: #ffcf9a;
+}
+
+.diag-btn-warn:hover:not(:disabled) {
+    background: rgba(255, 152, 0, 0.24);
+}
+
+.diag-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}

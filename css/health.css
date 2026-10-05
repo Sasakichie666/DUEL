@@ -1,0 +1,322 @@
+/* css/health.css */
+/* 此文件包含血量交互样式和查阅界面（Viewer）样式，以及回合投掷等杂项样式 */
+
+/* ========== 血量数字可点击样式 ========== */
+.player-health {
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.player-health:hover {
+    background: rgba(233, 69, 96, 0.30);
+    border-color: rgba(233, 69, 96, 0.75);
+    box-shadow: 0 0 14px rgba(233, 69, 96, 0.35);
+}
+
+/* ========== 查阅界面样式已迁移 ==========
+   新的「检索 / 查阅」面板（类名 pv-*）样式见 css/viewer.css；
+   旧的 .viewer-overlay / .viewer-content / .viewer-header / .viewer-grid / .viewer-empty
+   已废弃，由新面板取代。
+   （.card-full.viewer-card 的基础尺寸仍保留在 css/card.css，供新面板复用） */
+
+/* ========== 回合投掷界面样式 ========== */
+.turn-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 6000;
+}
+
+.turn-content {
+    background: var(--bg-panel);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 32px;
+    text-align: center;
+    min-width: 320px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+
+.turn-title {
+    font-size: 1.5rem;
+    color: var(--text-gold);
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.turn-info {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+}
+
+.turn-rolls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.turn-roll {
+    flex: 1;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.roll-label {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.roll-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.turn-vs {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.turn-roll-btn {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.turn-choose {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.turn-choose .btn {
+    flex: 1;
+}
+
+/* 注：原「顶部合并血量条」(.battle-header / .player-health-info) 已重构为
+   玩家信息卡 .player-badge，样式见 css/battle.css；回合操作移至右侧操作栏。 */
+
+/* 休整状态默认灰色 */
+.card-full.exhausted {
+    filter: grayscale(100%) brightness(0.7);
+    opacity: 0.85;
+}
+
+/* ========== 攻防数值编辑器（现代风格：深色卡片 + 分组数值行 + 分段步长） ========== */
+.stat-editor {
+    position: fixed;
+    z-index: 2100;
+    width: 236px;
+    padding: 12px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(24, 33, 52, 0.985) 0%, rgba(13, 20, 33, 0.995) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    animation: seIn 0.12s ease-out;
+}
+
+@keyframes seIn {
+    from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+    to   { opacity: 1; transform: none; }
+}
+
+.se-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 0 2px 8px;
+    margin-bottom: 9px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.se-title {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.42);
+    white-space: nowrap;
+}
+
+.se-name {
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--text-gold);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.se-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.se-stat {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 6px 8px 6px 11px;
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.se-k {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.se-atk .se-k { color: #ff8b8b; }
+.se-def .se-k { color: #6fe0d8; }
+
+.se-ctrl {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.se-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: all 0.12s;
+}
+
+.se-minus:hover {
+    color: #fff;
+    background: rgba(255, 90, 110, 0.22);
+    border-color: rgba(255, 90, 110, 0.55);
+}
+
+.se-plus:hover {
+    color: #fff;
+    background: rgba(80, 210, 160, 0.22);
+    border-color: rgba(80, 210, 160, 0.55);
+}
+
+.se-val {
+    min-width: 36px;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+}
+
+.se-foot {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 11px;
+    padding-top: 9px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.se-step-label {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.42);
+    white-space: nowrap;
+}
+
+.se-steps {
+    display: flex;
+    flex: 1;
+    gap: 4px;
+}
+
+.se-step {
+    flex: 1;
+    height: 26px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.12s;
+}
+
+.se-step:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.se-step.is-active {
+    color: #fff;
+    background: linear-gradient(180deg, #4d8dff, #2f6ae0);
+    border-color: rgba(140, 185, 255, 0.6);
+    box-shadow: 0 3px 10px rgba(47, 106, 224, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stat-editor { animation: none; }
+}
+
+/* 词条标签容器 */
+.trait-tags {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* 词条徽章 */
+.trait-badge {
+    font-size: 0.55rem;
+    padding: 1px 4px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+.trait-effect {
+    background: #1e88e5; /* 蓝色效果词条 */
+}
+.trait-status {
+    background: #e53935; /* 红色状态词条 */
+}
+
+/* 自定义文本标签 */
+.custom-text-tag {
+    font-size: 0.55rem;
+    padding: 1px 4px;
+    border-radius: 3px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #ddd;
+    white-space: nowrap;
+    line-height: 1.2;
+}

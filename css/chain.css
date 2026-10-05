@@ -1,0 +1,422 @@
+/* css/chain.css */
+/* ========== 响应连锁系统：右侧面板 + 目标高亮 + 指向箭头 ========== */
+
+/* ---------- 面板（最高层） ---------- */
+.chain-panel {
+    position: fixed;
+    top: 12px;
+    right: 16px;
+    z-index: 5900;              /* 最高层：高于菜单 2000 / 数值弹窗 3000 / 查阅面板 4000 */
+    width: var(--chain-w, 330px);
+    max-height: calc(100vh - 24px);
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(20, 28, 46, 0.985) 0%, rgba(11, 17, 29, 0.995) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.68), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.chain-panel.open {
+    display: flex;
+    animation: chainIn 0.14s ease-out;
+}
+
+@keyframes chainIn {
+    from { opacity: 0; transform: translateX(10px); }
+    to   { opacity: 1; transform: none; }
+}
+
+.chain-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.chain-ico { font-size: 1.05rem; }
+
+.chain-title {
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--text-gold);
+}
+
+/* 唯一实例：标明这一份连锁由哪一方主持（双方看到的是同一个实例） */
+.chain-host {
+    font-size: 0.64rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.chain-tp {
+    margin-left: auto;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 999px;
+    color: #fff;
+    background: linear-gradient(180deg, rgba(77, 141, 255, 0.9), rgba(47, 106, 224, 0.9));
+}
+
+/* 面板右上角兜底关闭（双方一起收起） */
+.chain-close {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+    margin-left: 4px;
+    padding: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.8rem;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    transition: all 0.13s;
+}
+
+.chain-close:hover {
+    color: #fff;
+    background: rgba(255, 90, 110, 0.25);
+    border-color: rgba(255, 90, 110, 0.55);
+}
+
+/* ---------- 序列链 ---------- */
+.chain-links {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    scrollbar-width: thin;
+}
+
+.chain-link {
+    padding: 8px 9px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.chain-link.is-latest {
+    background: rgba(77, 141, 255, 0.08);
+    border-color: rgba(120, 170, 255, 0.28);
+}
+
+.chain-link.is-block {
+    background: rgba(255, 215, 0, 0.07);
+    border-color: rgba(255, 215, 0, 0.28);
+}
+
+/* 处理阶段：正在处理的序列高亮，已排队的序列压暗 */
+.chain-link.is-resolving {
+    background: rgba(255, 181, 69, 0.12);
+    border-color: rgba(255, 181, 69, 0.55);
+    box-shadow: 0 0 0 1px rgba(255, 181, 69, 0.25), 0 6px 18px rgba(224, 139, 22, 0.22);
+}
+
+.chain-link.is-dimmed { opacity: 0.55; }
+
+.chain-resolve-tag {
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 2px 7px;
+    border-radius: 999px;
+    color: #2a1a00;
+    background: linear-gradient(180deg, #ffd27a, #ffb545);
+    animation: chainResolvePulse 1.1s ease-in-out infinite;
+}
+
+@keyframes chainResolvePulse {
+    0%, 100% { opacity: 0.75; }
+    50%      { opacity: 1; }
+}
+
+.chain-link-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.chain-seq {
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.chain-actor {
+    margin-left: auto;
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+/* 双方标识：与箭头颜色一致（我方=青，对方=品红），一眼对应"这条箭头是谁的" */
+.chip-self { color: #bde9ff; background: rgba(95, 201, 255, 0.18); border: 1px solid rgba(95, 201, 255, 0.5); }
+.chip-opp  { color: #ffd0dd; background: rgba(255, 95, 138, 0.18); border: 1px solid rgba(255, 95, 138, 0.5); }
+
+.chain-link-desc {
+    font-size: 0.76rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.chain-card-box {
+    display: flex;
+    justify-content: center;
+    margin-top: 7px;
+}
+
+/* 盖伏牌在响应面板里的说明（对方视角只给牌背 ✓）
+   ★绝对定位（不占高度）：否则两端这一行的高度会不一样，箭头起点就会错位 ✗ */
+.chain-card-box { position: relative; }
+.chain-card-note {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8px;
+    text-align: center;
+    font-size: 0.66rem;
+    line-height: 1.3;
+    color: rgba(255, 255, 255, 0.78);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95);
+    pointer-events: none;
+}
+
+/* 面板里的卡牌详情：沿用 CardDetailUI 的 .detail-card 规格，尺寸取它的 80%
+   （260 × 320 → 208 × 256）。
+   ★固定高度（不是 min-height）：保证双方面板里每一行的高度完全一致，
+     这样两端的箭头起点位置就对得上（不会一边高一一边低）。 */
+.chain-card-box .card-full {
+    width: min(208px, 100%);
+    height: 256px;
+    flex: 0 0 auto;
+    pointer-events: none;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+    border-color: rgba(120, 170, 255, 0.35);
+}
+
+/* 描述 / 目标文字固定单行：两端文案长度不同也不能撑高行（否则箭头起点会错位） */
+.chain-link-desc,
+.chain-targets {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chain-targets {
+    margin-top: 6px;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    color: #9fd0ff;
+}
+
+/* ---------- 状态与按钮 ---------- */
+.chain-status {
+    font-size: 0.76rem;
+    padding: 7px 10px;
+    border-radius: 10px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.82);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    min-height: 36px;              /* ★固定最小高度：两端状态文案长度不同也不影响列表高度 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 按钮区固定最小高度：把"双方文案行数不同"导致的面板高度差抹平，保证箭头起点一致 */
+.chain-buttons { min-height: 84px; }
+
+/* 等待方：呼吸闪烁，更醒目 */
+.chain-status.breathing {
+    animation: chainBreath 1.5s ease-in-out infinite;
+}
+
+@keyframes chainBreath {
+    0%, 100% { opacity: 0.45; box-shadow: none; }
+    50%      { opacity: 1; box-shadow: 0 0 16px rgba(77, 141, 255, 0.35); }
+}
+
+.chain-hint {
+    font-size: 0.7rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+}
+
+.chain-btn-row { display: flex; gap: 6px; margin-top: 6px; }
+.chain-btn-col { display: flex; flex-direction: column; }
+
+.chain-btn {
+    flex: 1;
+    height: 34px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border: 1px solid transparent;
+    transition: all 0.13s;
+}
+
+.chain-btn-primary {
+    color: #fff;
+    background: linear-gradient(180deg, #4d8dff, #2f6ae0);
+    border-color: rgba(140, 185, 255, 0.5);
+    box-shadow: 0 5px 16px rgba(47, 106, 224, 0.4);
+}
+.chain-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 7px 20px rgba(47, 106, 224, 0.55); }
+
+.chain-btn-ghost {
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+.chain-btn-ghost:hover { color: #fff; background: rgba(255, 255, 255, 0.12); }
+
+.chain-btn-warn {
+    color: #fff;
+    background: linear-gradient(180deg, #ffb545, #e08b16);
+    border-color: rgba(255, 210, 140, 0.55);
+    box-shadow: 0 5px 16px rgba(224, 139, 22, 0.35);
+}
+.chain-btn-warn:hover { transform: translateY(-1px); }
+
+/* ---------- 指向箭头层（全屏 SVG，不吃事件） ---------- */
+.chain-arrow-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 6000;              /* 在卡牌详情之上：箭头从卡面边缘清晰引出（面板为 5900） */
+    pointer-events: none;
+    overflow: visible;
+}
+
+.chain-arrow { filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.18)); }
+.chain-arrow-glow { filter: blur(3px); stroke-linecap: round; }
+
+/* ---------- 目标高亮（目标选择模式） ----------
+   完全由 CSS 依据 body 上的 scope 类决定：
+   战场被 refreshAll 重建后高亮依然成立（JS 不持有元素引用）。 */
+/* 目标选择期间：战场与手牌整体压暗，突出"可选目标" */
+body.chain-targeting .field-row .card-full,
+body.chain-targeting .pc-avatar,
+body.chain-targeting .self-hand .card-full {
+    filter: brightness(0.72) saturate(0.8);
+}
+
+/* 可选目标恢复亮度（选择器与上面的高亮规则保持一致；特异性更高，顺序无关） */
+body.chain-targeting.chain-scope-allField .field-row .card-full,
+body.chain-targeting.chain-scope-allFieldAndAvatar .field-row .card-full,
+body.chain-targeting.chain-scope-allFieldAndAvatar .pc-avatar,
+body.chain-targeting.chain-scope-foeFrontAndAvatar .half.opponent-half .field-row.front .card-full,
+body.chain-targeting.chain-scope-foeFrontAndAvatar .half.opponent-half .pc-avatar,
+body.chain-targeting.chain-scope-ownFront .half.self-half .field-row.front .card-full {
+    cursor: crosshair;
+    filter: none;
+    outline: 2px solid rgba(150, 195, 255, 0.9);      /* 实线亮起（不用虚线） */
+    outline-offset: 2px;
+    border-radius: 12px;
+    box-shadow: 0 0 0 3px rgba(95, 201, 255, 0.16), 0 0 16px rgba(95, 201, 255, 0.3);
+    animation: chainTargetPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes chainTargetPulse {
+    0%, 100% {
+        outline-color: rgba(120, 175, 255, 0.62);
+        box-shadow: 0 0 0 3px rgba(95, 201, 255, 0.12), 0 0 12px rgba(95, 201, 255, 0.22);
+    }
+    50% {
+        outline-color: rgba(180, 218, 255, 1);
+        box-shadow: 0 0 0 4px rgba(95, 201, 255, 0.24), 0 0 22px rgba(95, 201, 255, 0.45);
+    }
+}
+
+/* 已选中：实线青环（由 JS 每 200ms 补类，战场重渲染后自动恢复） */
+.card-full.chain-target-on,
+.pc-avatar.chain-target-on {
+    outline: 3px solid #5fc9ff !important;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(95, 201, 255, 0.35), 0 0 22px rgba(95, 201, 255, 0.45) !important;
+    animation: none !important;
+}
+
+@media (max-width: 900px) {
+    .chain-panel { top: 8px; right: 8px; padding: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .chain-panel.open { animation: none; }
+    .chain-status.breathing { animation: none; opacity: 1; }
+    .chain-resolve-tag { animation: none; opacity: 1; }
+    body.chain-targeting.chain-scope-allField .field-row .card-full,
+    body.chain-targeting.chain-scope-allFieldAndAvatar .field-row .card-full,
+    body.chain-targeting.chain-scope-allFieldAndAvatar .pc-avatar,
+    body.chain-targeting.chain-scope-foeFrontAndAvatar .half.opponent-half .field-row.front .card-full,
+    body.chain-targeting.chain-scope-foeFrontAndAvatar .half.opponent-half .pc-avatar,
+    body.chain-targeting.chain-scope-ownFront .half.self-half .field-row.front .card-full {
+        animation: none;
+    }
+}
+
+
+/* ===== 折叠态（响应连锁面板）：只保留标题栏，方便看手牌与战场 ===== */
+.chain-panel.chain-collapsed {
+    gap: 0;
+    padding: 8px 12px;
+}
+
+.chain-panel.chain-collapsed .chain-head {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.chain-panel.chain-collapsed .chain-links,
+.chain-panel.chain-collapsed .chain-status,
+.chain-panel.chain-collapsed .chain-buttons {
+    display: none !important;
+}
+
+/* 折叠按钮（与右上角 ✕ 并排） */
+.chain-fold {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+    margin-left: 4px;
+    padding: 0;
+    cursor: pointer;
+    font-size: 0.8rem;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+}
+
+.chain-fold:hover {
+    color: #fff;
+    background: rgba(255, 215, 106, 0.22);
+    border-color: rgba(255, 215, 106, 0.55);
+}
+

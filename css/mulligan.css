@@ -1,0 +1,209 @@
+/* css/mulligan.css */
+/* ========== 起始手牌（调度 Mulligan）界面 ==========
+   结构（由 js/ui/mulliganUI.js 生成）：
+   .mulligan-overlay > .mulligan-panel
+      .mulligan-head    → 标题「起始手牌」+ 身份徽章（你先手 / 你后手）
+      .mulligan-tip     → 操作提示
+      .mulligan-cards   → 4 张起手牌（点击切换「替换」标记）
+      .mulligan-foot    → 状态文本 + 「确认保留」按钮
+   注意：遮罩本身即「背景调暗」，只有面板保持正常亮度。
+   ================================================= */
+
+.mulligan-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 6200;                      /* 高于先后手投掷界面（6000）与查阅面板（4000） */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(3, 6, 12, 0.86);   /* 除本面板外，其余界面整体调暗 */
+    animation: mgFade 0.15s ease-out;
+}
+
+.mulligan-overlay.open { display: flex; }
+
+@keyframes mgFade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.mulligan-panel {
+    width: min(900px, 94vw);
+    border-radius: 18px;
+    padding: 20px 24px 18px;
+    text-align: center;
+    background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(90, 140, 255, 0.12) 0%, rgba(0, 0, 0, 0) 65%),
+        linear-gradient(180deg, rgba(21, 30, 48, 0.99) 0%, rgba(11, 17, 28, 1) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.mulligan-head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.mulligan-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: var(--text-gold);
+}
+
+.mulligan-role {
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.mulligan-role.first {
+    color: #fff;
+    background: linear-gradient(180deg, #4d8dff, #2f6ae0);
+    border: 1px solid rgba(140, 185, 255, 0.6);
+    box-shadow: 0 3px 12px rgba(47, 106, 224, 0.45);
+}
+
+.mulligan-role.second {
+    color: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.mulligan-tip {
+    margin: 8px 0 16px;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+}
+
+/* 卡牌行：4 张起手牌 */
+.mulligan-cards {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+    min-height: 190px;
+}
+
+/* 覆盖 .card-full 的固定高度（200px），锁定标准卡面比例 3:4 */
+.mulligan-cards .card-full {
+    width: 140px;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    flex: 0 0 auto;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mulligan-cards .card-full:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 215, 0, 0.6);
+}
+
+/* 被标记为「替换」的卡（主流调度界面的做法）：
+   抬起 + 玫红描边光环 + 卡面覆一层红色蒙版 + 右上角「↻ 替换」胶囊标签。
+   刻意避开金色 —— 金色留给「当前选中/菜单打开」状态，两种状态必须能区分。 */
+.mulligan-cards .card-full.is-replaced {
+    transform: translateY(-10px);
+    border-color: #ff5c7a;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.55),
+                0 0 0 2px rgba(255, 92, 122, 0.9),
+                0 0 24px rgba(233, 69, 96, 0.45);
+}
+
+/* 红色蒙版：一眼看出这张被标记了 */
+.mulligan-cards .card-full.is-replaced::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(233, 69, 96, 0.30) 0%, rgba(233, 69, 96, 0.13) 100%);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* 右上角胶囊标签（不再是斜着压满卡面的横幅） */
+.mulligan-cards .card-full.is-replaced::after {
+    content: '↻ 替换';
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    padding: 3px 10px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    color: #fff;
+    background: linear-gradient(180deg, #ff6b86 0%, #d8304f 100%);
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(216, 48, 79, 0.5);
+    pointer-events: none;
+    z-index: 6;
+}
+
+.mulligan-foot {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.mulligan-status {
+    min-height: 18px;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.mulligan-confirm {
+    height: 42px;
+    padding: 0 36px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #fff;
+    cursor: pointer;
+    border: 1px solid rgba(140, 185, 255, 0.5);
+    border-radius: 999px;
+    background: linear-gradient(180deg, #4d8dff, #2f6ae0);
+    box-shadow: 0 6px 20px rgba(47, 106, 224, 0.45);
+    transition: all 0.15s;
+}
+
+.mulligan-confirm:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(47, 106, 224, 0.6);
+}
+
+.mulligan-confirm:disabled {
+    cursor: default;
+    opacity: 0.6;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.10);
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: none;
+}
+
+/* 矮屏：卡牌收窄，保证面板不超出视口 */
+@media (max-height: 720px) {
+    .mulligan-panel { padding: 14px 18px 12px; }
+    .mulligan-cards { gap: 12px; min-height: 150px; }
+    .mulligan-cards .card-full { width: 108px; }
+    .mulligan-tip { margin: 6px 0 10px; }
+    .mulligan-foot { margin-top: 12px; }
+}
+
+/* 窄屏：一行放不下 4 张时允许换行 */
+@media (max-width: 760px) {
+    .mulligan-cards { flex-wrap: wrap; }
+    .mulligan-cards .card-full { width: 112px; }
+}

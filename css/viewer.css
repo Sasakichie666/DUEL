@@ -1,0 +1,521 @@
+/* css/viewer.css */
+/* ========== 牌堆「检索 / 查阅」界面（现代玻璃拟态面板） ==========
+   结构（由 js/ui/viewerUI.js 生成）：
+   .pv-overlay > .pv-panel
+      .pv-head   → 标题 + 数量 + 搜索 + 排序 + 关闭
+      .pv-filters→ 类型筛选胶囊
+      .pv-body   → .pv-grid（卡牌网格）
+      .pv-foot   → 动作分段控件 + 计数提示
+   ============================================================== */
+
+.pv-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 4000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    /* 性能说明：这里刻意【不用】backdrop-filter 全屏模糊。
+       全屏高斯模糊会强制浏览器在每次重绘时对整屏做模糊合成，
+       在集显/低端显卡上就是"打开瞬间明显卡顿"的主因。
+       改用不透明遮罩 + 面板自身半透明来保持现代质感。 */
+    background: rgba(4, 7, 14, 0.84);
+    animation: pvFade 0.12s ease-out;
+}
+
+@keyframes pvFade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.pv-panel {
+    position: relative;
+    width: min(1240px, 94vw);
+    height: min(84vh, 900px);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(90, 140, 255, 0.10) 0%, rgba(0, 0, 0, 0) 60%),
+        linear-gradient(180deg, rgba(21, 30, 48, 0.99) 0%, rgba(11, 17, 28, 1) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow:
+        0 18px 44px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07);
+    /* 只做透明度淡入：避免缩放动画导致整块面板（含几十张卡）反复重绘 */
+    animation: pvPop 0.12s ease-out;
+}
+
+@keyframes pvPop {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ===== 顶部工具栏 ===== */
+.pv-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0));
+    flex-shrink: 0;
+}
+
+.pv-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.pv-title .pv-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.05rem;
+    background: linear-gradient(180deg, rgba(90, 140, 255, 0.28), rgba(90, 140, 255, 0.10));
+    border: 1px solid rgba(120, 170, 255, 0.28);
+    flex-shrink: 0;
+}
+
+.pv-title h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.pv-title .pv-count {
+    font-size: 0.72rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    padding: 2px 9px;
+    border-radius: 999px;
+    color: #fff;
+    background: linear-gradient(180deg, #4d8dff, #2f6ae0);
+    box-shadow: 0 3px 10px rgba(47, 106, 224, 0.4);
+}
+
+.pv-tools {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+/* 搜索框 */
+.pv-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.34);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.pv-search:focus-within {
+    border-color: rgba(120, 170, 255, 0.55);
+    background: rgba(0, 0, 0, 0.45);
+    box-shadow: 0 0 0 3px rgba(77, 141, 255, 0.18);
+}
+
+.pv-search .pv-search-icon {
+    font-size: 0.85rem;
+    opacity: 0.55;
+}
+
+.pv-search input {
+    width: 210px;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 0.84rem;
+    font-family: inherit;
+}
+
+.pv-search input::placeholder {
+    color: rgba(255, 255, 255, 0.32);
+}
+
+/* 通用小按钮（排序 / 关闭） */
+.pv-btn {
+    height: 38px;
+    padding: 0 14px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-family: inherit;
+    color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.pv-btn:hover {
+    color: #fff;
+    border-color: rgba(120, 170, 255, 0.45);
+    background: rgba(90, 140, 255, 0.16);
+}
+
+.pv-close {
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
+.pv-close:hover {
+    color: #fff;
+    border-color: rgba(233, 69, 96, 0.6) !important;
+    background: rgba(233, 69, 96, 0.22) !important;
+}
+
+/* ===== 筛选胶囊行 ===== */
+.pv-filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-shrink: 0;
+    scrollbar-width: none;
+}
+
+.pv-filters::-webkit-scrollbar { display: none; }
+
+.pv-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 13px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-family: inherit;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.pv-chip:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.pv-chip b {
+    font-size: 0.68rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.pv-chip.is-active {
+    color: #fff;
+    background: linear-gradient(180deg, rgba(77, 141, 255, 0.9), rgba(47, 106, 224, 0.9));
+    border-color: rgba(140, 185, 255, 0.6);
+    box-shadow: 0 4px 14px rgba(47, 106, 224, 0.38);
+}
+
+.pv-chip.is-active b {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+/* ===== 卡牌网格区 ===== */
+.pv-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 18px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.pv-body::-webkit-scrollbar {
+    width: 10px;
+}
+
+.pv-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+.pv-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.28);
+    background-clip: content-box;
+}
+
+.pv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(116px, 1fr));
+    gap: 16px 14px;
+    align-content: start;
+}
+
+/* 网格中的卡牌：悬停上浮 + 发光
+   比例：显式锁定标准卡面比例 宽:高 = 3:4（与手牌、战场卡一致）。
+        基础 .card-full 是固定 height:200px，而网格列宽只有 ~120px，
+        会被拉成又窄又长的"长条卡"；这里用 aspect-ratio 让高度跟随列宽，
+        并用 align-self:start 防止被网格行高拉伸。
+   性能：content-visibility:auto 让离屏卡片跳过布局与绘制（40~60 张也能秒开、滚动不掉帧）；
+        contain-intrinsic-size 的 auto 关键字会记住卡片上次渲染的实际高度，避免滚动时跳动。 */
+.pv-grid .card-full.viewer-card {
+    position: relative;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    align-self: start;
+    justify-content: center;      /* 查阅卡不渲染效果文本，内容垂直居中更饱满 */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 160px;
+    transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.pv-grid .card-full.viewer-card:hover {
+    transform: translateY(-5px);
+    z-index: 5;
+    border-color: var(--accent);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.58), 0 0 0 1px rgba(233, 69, 96, 0.5);
+}
+
+.pv-grid.is-readonly .card-full.viewer-card {
+    cursor: default;
+}
+
+.pv-grid.is-readonly .card-full.viewer-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(120, 170, 255, 0.45);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(120, 170, 255, 0.35);
+}
+
+/* 空状态 */
+.pv-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 64px 20px;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.pv-empty .pv-empty-icon {
+    font-size: 2rem;
+    opacity: 0.5;
+}
+
+.pv-empty .pv-empty-text {
+    font-size: 0.86rem;
+    letter-spacing: 0.5px;
+}
+
+/* ===== 纯文本信息面板（showText，例如侧栏「规则」） ===== */
+.pv-text-list {
+    margin: 0;
+    padding: 6px 2px;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pv-text-list li {
+    position: relative;
+    padding: 12px 16px 12px 40px;
+    border-radius: 12px;
+    font-size: 0.86rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.82);
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.pv-text-list li::before {
+    content: '◆';
+    position: absolute;
+    left: 16px;
+    top: 12px;
+    font-size: 0.7rem;
+    color: rgba(120, 170, 255, 0.75);
+}
+
+/* ===== 底部操作栏 ===== */
+.pv-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 13px 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0));
+    flex-shrink: 0;
+}
+
+.pv-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-width: 0;
+}
+
+.pv-actions .pv-actions-label {
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.42);
+    margin-right: 2px;
+    white-space: nowrap;
+}
+
+.pv-act {
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 9px;
+    font-size: 0.78rem;
+    font-family: inherit;
+    color: rgba(255, 255, 255, 0.68);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.pv-act:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.09);
+}
+
+.pv-act.is-active {
+    color: #fff;
+    background: linear-gradient(180deg, #4d8dff, #2f6ae0);
+    border-color: rgba(140, 185, 255, 0.6);
+    box-shadow: 0 4px 14px rgba(47, 106, 224, 0.4);
+}
+
+.pv-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.42);
+    white-space: nowrap;
+}
+
+.pv-hint kbd {
+    font-family: inherit;
+    font-size: 0.66rem;
+    padding: 1px 6px;
+    border-radius: 5px;
+    color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 900px) {
+    .pv-overlay { padding: 12px; }
+    .pv-panel { width: 100%; height: 88vh; }
+    .pv-search input { width: 120px; }
+    .pv-grid { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 12px 10px; }
+    .pv-body { padding: 12px; }
+    .pv-head { padding: 12px; flex-wrap: wrap; }
+    .pv-foot { flex-direction: column; align-items: flex-start; }
+}
+
+/* ===== 折叠态（查阅 / 检索面板）：只保留标题栏，方便看手牌与战场 =====
+   交互：右上角 ▾ / ▸ 按钮，或按 F 切换；折叠时点标题栏即可展开 */
+.pv-overlay.pv-collapsed {
+    align-items: flex-start;        /* 面板贴顶，不再挡住下方的手牌与战场 */
+    padding-top: 12px;
+    background: transparent;        /* ★折叠后不再把界面调暗：恢复正常亮度 ✓ */
+}
+
+/* 折叠后仍然挡住点击（避免误操作牌桌），但鼠标移动会"透传"给下面的卡牌显示详情 ✓ */
+.pv-overlay.pv-collapsed .pv-panel {
+    pointer-events: auto;
+}
+
+.pv-overlay.pv-collapsed .pv-filters,
+.pv-overlay.pv-collapsed .pv-body,
+.pv-overlay.pv-collapsed .pv-foot {
+    display: none !important;
+}
+
+.pv-overlay.pv-collapsed .pv-panel {
+    height: auto;
+    min-height: 0;
+}
+
+.pv-overlay.pv-collapsed .pv-head {
+    padding-bottom: 12px;
+}
+
+.pv-fold {
+    min-width: 34px;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* ===== 底部「额外控件」（翻阅：公开勾选 / +1 张 / 收起 ✓）=====
+   不传 controls 时 .pv-extra 为空 → display:none，完全不影响现有面板 ✓ */
+.pv-foot { flex-wrap: wrap; }
+.pv-extra {
+    flex: 1 1 100%;
+    order: -1;                       /* 独占一行，排在动作按钮上方 ✓ */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.pv-extra:empty { display: none; }
+.pv-ctl { font-size: 0.76rem; color: #cfe4ff; }
+.pv-ctl-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(120, 170, 255, 0.12);
+    border: 1px solid rgba(120, 170, 255, 0.28);
+    cursor: pointer;
+    user-select: none;
+}
+.pv-ctl-check:hover { background: rgba(120, 170, 255, 0.22); }
+.pv-ctl-check input { margin: 0; cursor: pointer; accent-color: #4d8dff; }
+.pv-ctl-btn {
+    padding: 5px 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    cursor: pointer;
+}
+.pv-ctl-btn:hover { background: rgba(255, 255, 255, 0.16); }
+

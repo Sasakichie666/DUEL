@@ -1,0 +1,186 @@
+/* css/menu.css */
+/* ========== 上下文菜单（现代风格：深色玻璃面板 + 圆角 + 左侧强调条 + 危险项配色） ========== */
+.context-menu {
+    position: fixed;
+    z-index: 2000;
+    min-width: 152px;
+    max-width: 264px;
+    padding: 6px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(24, 33, 52, 0.985) 0%, rgba(13, 20, 33, 0.995) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    animation: cmIn 0.12s ease-out;
+}
+
+@keyframes cmIn {
+    from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+    to   { opacity: 1; transform: none; }
+}
+
+.context-menu-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px 9px 14px;
+    border-radius: 9px;
+    font-size: 0.84rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    color: rgba(255, 255, 255, 0.86);
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: background 0.12s ease, color 0.12s ease, padding-left 0.12s ease;
+}
+
+/* 左侧强调条：hover 时长出来 */
+.context-menu-item::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    width: 3px;
+    height: 0;
+    border-radius: 3px;
+    background: var(--accent);
+    transform: translateY(-50%);
+    transition: height 0.15s ease;
+}
+
+.context-menu-item:hover {
+    color: #fff;
+    padding-left: 18px;
+    background: linear-gradient(90deg, rgba(233, 69, 96, 0.20) 0%, rgba(233, 69, 96, 0.05) 72%, transparent 100%);
+}
+
+.context-menu-item:hover::before {
+    height: 58%;
+}
+
+/* 危险操作（弃置 / 放逐 …）用玫红区分 */
+.context-menu-item.is-danger {
+    color: rgba(255, 150, 162, 0.92);
+}
+.context-menu-item.is-danger::before {
+    background: #ff5c7a;
+}
+.context-menu-item.is-danger:hover {
+    background: linear-gradient(90deg, rgba(255, 60, 90, 0.24) 0%, rgba(255, 60, 90, 0.06) 72%, transparent 100%);
+}
+
+/* 分组分隔线 */
+.context-menu-sep {
+    height: 1px;
+    margin: 5px 8px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .context-menu { animation: none; }
+}
+
+/* 词条输入弹窗样式（可选，用于替代内联样式） */
+.trait-prompt-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+.trait-prompt-dialog {
+    background: #1e2a3a;
+    border: 2px solid #4a6fa5;
+    border-radius: 12px;
+    padding: 24px 28px;
+    width: 360px;
+    max-width: 90vw;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    color: #e0e0e0;
+}
+.trait-prompt-dialog h3 {
+    margin: 0 0 16px 0;
+    color: #ffd700;
+    text-align: center;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+.trait-prompt-dialog input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #4a6fa5;
+    border-radius: 6px;
+    background: #0f1a2b;
+    color: #ffffff;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+.trait-prompt-dialog input:focus {
+    border-color: #ffd700;
+}
+.trait-prompt-dialog .trait-prompt-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+.trait-prompt-dialog button {
+    padding: 8px 20px;
+    background: transparent;
+    border: 1px solid #4a6fa5;
+    border-radius: 6px;
+    color: #e0e0e0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+.trait-prompt-dialog button.confirm {
+    background: #4a6fa5;
+    border: none;
+    color: #ffffff;
+    font-weight: 600;
+}
+.trait-prompt-dialog button.confirm:hover {
+    background: #5d82b8;
+}
+.trait-prompt-dialog button.cancel:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+/* ========== 菜单分组配色（按分界线分组，组内同色） ==========
+   primary = 使用/激活类（登场·发动·攻击·切换·抽牌）→ 金色
+   danger  = 移出战场类（回手·进墓·放逐·回库）→ 玫红（与进墓/放逐同色）
+   modify  = 附加/调整类（翻盖·修改·添加·清除·装备·检索）→ 紫色
+   neutral = 查看类（查阅·洗切）→ 蓝灰 */
+
+.context-menu-item.tone-primary { color: #ffd76a; }
+.context-menu-item.tone-primary::before { background: #ffd76a; }
+.context-menu-item.tone-primary:hover {
+    background: linear-gradient(90deg, rgba(255, 215, 106, 0.22) 0%, rgba(255, 215, 106, 0.05) 72%, transparent 100%);
+}
+
+.context-menu-item.tone-danger { color: rgba(255, 150, 162, 0.94); }
+.context-menu-item.tone-danger::before { background: #ff5c7a; }
+.context-menu-item.tone-danger:hover {
+    background: linear-gradient(90deg, rgba(255, 60, 90, 0.24) 0%, rgba(255, 60, 90, 0.06) 72%, transparent 100%);
+}
+
+.context-menu-item.tone-modify { color: #b39cff; }
+.context-menu-item.tone-modify::before { background: #9c7cff; }
+.context-menu-item.tone-modify:hover {
+    background: linear-gradient(90deg, rgba(155, 120, 255, 0.22) 0%, rgba(155, 120, 255, 0.05) 72%, transparent 100%);
+}
+
+.context-menu-item.tone-neutral { color: #9fb4d4; }
+.context-menu-item.tone-neutral::before { background: #7f9dcc; }
+.context-menu-item.tone-neutral:hover {
+    background: linear-gradient(90deg, rgba(127, 157, 204, 0.20) 0%, rgba(127, 157, 204, 0.05) 72%, transparent 100%);
+}

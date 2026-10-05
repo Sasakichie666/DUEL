@@ -1,0 +1,131 @@
+/* css/costPanel.css */
+/* 「费用牌界面 / 费用区界面」批量面板
+   —— 外观完全沿用查阅面板（pv-* 类），卡牌尺寸用同一套 viewer-card 标准 ✓
+   这里只放三样东西：① 顶部提示文字 ② 顺序标号徽章 + 选中金框 ③ 动作按钮配色
+   折叠样式直接复用 viewer.css 的 .pv-overlay.pv-collapsed ✓（不变暗 + 可悬停看牌 ✓） */
+
+/* ① 层级：必须【高于响应连锁面板】✓
+   连锁面板 .chain-panel 是 5900、连锁箭头层是 6000（见 css/chain.css）
+   → 费用面板抬到 6200，保证两者同时出现时互不遮挡、费用区/费用牌始终可操作 ✓ */
+.pv-overlay.cost-panel {
+    z-index: 6200;
+}
+
+/* ② 顶部提示（查阅那边 .pv-filters 是筛选胶囊行，这里只放一行说明文字 → 覆盖为普通块） */
+.cost-panel .pv-filters {
+    display: block;
+    overflow: visible;
+    padding: 10px 18px 0;
+}
+
+.cost-panel .pv-filters .cp-tip {
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+/* 「已选 N」按钮：与工具区其它按钮一致 */
+.cost-panel .cp-picked {
+    color: #ffd76a;
+    border-color: rgba(255, 215, 106, 0.45);
+    cursor: default;
+}
+
+/* ② 卡牌格子 + 顺序标号 */
+.cp-cell {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+}
+
+.cp-badge {
+    position: absolute;
+    right: -6px;
+    top: -6px;
+    min-width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    font-size: 0.86rem;
+    font-weight: 900;
+    color: #1a1200;
+    background: var(--text-gold);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+    z-index: 6;
+    pointer-events: none;
+}
+
+/* 选中的卡：金色描边（复用查阅卡的只读样式 + 加一圈金框） */
+.pv-grid .card-full.viewer-card.is-picked {
+    transform: translateY(-5px);
+    border-color: var(--text-gold);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.58), 0 0 0 3px rgba(255, 215, 106, 0.85);
+}
+
+/* ③ 动作按钮：与查阅面板的 .pv-btn 同款外形 + 分组配色 */
+.cp-btn {
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #e6ecf5;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.cp-btn:hover { filter: brightness(1.18); }
+.cp-btn.tone-primary { color: #ffd76a; border-color: rgba(255, 215, 106, 0.5); }
+.cp-btn.tone-danger { color: #ff96a2; border-color: rgba(255, 92, 122, 0.5); }
+.cp-btn.tone-swap { color: #5fc9ff; border-color: rgba(95, 201, 255, 0.55); }
+
+/* ===== 入口提示：费用牌区域即使暂时没有费用牌，也仍然是一个可点击的面板入口 ===== */
+#self-hand-cost {
+    cursor: pointer;
+}
+
+/* 空的时候给个虚线占位，避免"没有牌就点不到" */
+#self-hand-cost:empty::after {
+    content: '费用牌';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 96px;
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.34);
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    border: 1px dashed rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+#self-cost-zone {
+    cursor: pointer;
+}
+
+/* ===== 费用区底部：「自动对齐」按钮（在费用区本体上，不在弹窗里） ===== */
+.cost-zone-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 6px;
+}
+
+.cost-align-btn {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #cfe0ff;
+    background: rgba(95, 201, 255, 0.12);
+    border: 1px solid rgba(95, 201, 255, 0.40);
+}
+
+.cost-align-btn:hover {
+    color: #fff;
+    background: rgba(95, 201, 255, 0.26);
+}
+

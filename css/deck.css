@@ -1,0 +1,250 @@
+/* css/deck.css */
+/* 卡组管理器样式 */
+.deck-manager-container {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+    flex: 1;
+    min-height: 500px;
+}
+@media (max-width: 900px) {
+    .deck-manager-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+.card-library {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    overflow-y: auto;
+    max-height: 600px;
+}
+.card-library h3 {
+    color: var(--text-gold);
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    position: sticky;
+    top: 0;
+    background: var(--bg-panel);
+    padding: 8px 0;
+    z-index: 2;
+}
+.card-library .card-section {
+    margin-bottom: 16px;
+}
+.card-library .card-section h4 {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+/* 卡组编辑区 */
+.deck-editor {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.deck-editor h3 {
+    color: var(--text-gold);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.deck-editor h3 .deck-count {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    letter-spacing: 0;
+}
+.deck-editor h3 .deck-count.valid {
+    color: var(--success);
+}
+.deck-editor h3 .deck-count.invalid {
+    color: var(--error);
+}
+
+.deck-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+.deck-slots .slot-section {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 12px;
+}
+.deck-slots .slot-section h4 {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+.deck-slots .slot-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-height: 50px;
+    align-items: center;
+}
+.deck-slots .slot-cards .deck-card-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+}
+.deck-slots .slot-cards .deck-card-item:hover {
+    border-color: var(--error);
+    background: rgba(244, 67, 54, 0.2);
+}
+.deck-slots .slot-cards .deck-card-item .remove-hint {
+    font-size: 0.65rem;
+    color: var(--error);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.deck-slots .slot-cards .deck-card-item:hover .remove-hint {
+    opacity: 1;
+}
+.deck-slots .empty-slot {
+    width: 50px;
+    height: 30px;
+    border: 2px dashed var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    color: var(--text-secondary);
+    opacity: 0.5;
+}
+
+.deck-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: auto;
+}
+.deck-actions .btn {
+    flex: 1;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 12px 16px;
+}
+
+/* ===== 卡组进度提示（替代原来的「铺满空框」，避免 3 张卡看起来像已满） ===== */
+.deck-slots .slot-cards .deck-slot-summary {
+    flex: 0 0 100%;
+    width: 100%;
+    margin-top: 4px;
+    padding: 8px 2px 2px;
+    font-size: 0.72rem;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+.deck-slots .slot-cards .deck-slot-summary.full {
+    color: var(--success);
+    border-top-color: rgba(76, 175, 80, 0.35);
+}
+
+/* 失效卡牌（不在当前卡包中）提示 */
+.deck-slots .slot-cards .deck-card-missing {
+    flex: 0 0 100%;
+    width: 100%;
+    padding: 6px 10px;
+    font-size: 0.72rem;
+    color: var(--warning);
+    background: rgba(255, 152, 0, 0.10);
+    border: 1px solid rgba(255, 152, 0, 0.30);
+    border-radius: 6px;
+}
+
+/* ================= 卡牌库筛选栏（需求2/3：卡包 + 费用颜色限定） ================= */
+.library-filters {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.library-filters .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+}
+.library-filters .filter-label { color: var(--text-secondary); }
+.library-filters select {
+    padding: 5px 8px;
+    background: rgba(15, 26, 43, 0.9);
+    color: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+.library-filters .filter-colors { display: flex; align-items: center; gap: 5px; }
+.library-filters .filter-none-label { color: var(--text-secondary); font-size: 0.72rem; }
+.library-filters .mini-btn { padding: 4px 10px; font-size: 0.75rem; }
+
+/* 颜色圆点：可点选（选中 → 白圈高亮） */
+.color-pick {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid transparent;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+    transition: transform 0.12s;
+    display: inline-block;
+    flex: 0 0 auto;
+}
+.color-pick:hover { transform: scale(1.12); }
+.color-pick.on { border-color: #fff; box-shadow: 0 0 8px rgba(255, 255, 255, 0.65); }
+.color-pick.red { background: var(--color-red); }
+.color-pick.green { background: var(--color-green); }
+.color-pick.blue { background: var(--color-blue); }
+.color-pick.white { background: var(--color-white); }
+.color-pick.purple { background: var(--color-purple); }
+.color-pick.yellow { background: var(--color-yellow); }
+.color-pick.cyan { background: var(--color-cyan); }
+/* 无色：斜纹灰点 */
+.color-pick.none {
+    background: repeating-linear-gradient(45deg, #4a4a4a 0 4px, #2f2f2f 4px 8px);
+}
+
+/* 筛选状态提示（卡牌库顶部） */
+.library-filter-summary {
+    font-size: 0.75rem;
+    color: var(--warning);
+    margin: 0 0 10px;
+}
